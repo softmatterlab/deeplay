@@ -17,6 +17,8 @@ from .meta import ExtendedConstructorMeta, not_top_level
 from .decorators import after_init, after_build, stateful
 from functools import partial
 
+__all__ = ["DeeplayModule", "Selection"]
+
 
 def builder(cls, args, kwargs):
     # Builds a class given the arguments and keyword arguments.
@@ -382,54 +384,22 @@ class DeeplayModule(nn.Module, metaclass=ExtendedConstructorMeta):
     kwargs : dict
         A property to get or set keyword arguments.
 
-
-    Methods
-    -------
-
-    configure(*args: Any, **kwargs: Any)
-        Configures the module with given arguments and keyword arguments.
-
-    create()
-        This method creates and returns a new instance of the module.
-        Unlike build, which modifies the module in place, create
-        initializes a fresh instance with the current configuration and state,
-        ensuring that the original module remains unchanged
-
-    build()
-        build: "This method modifies the current instance of the module in place.
-        It finalizes the setup of the module, applying any necessary configurations
-        or adjustments directly to the existing instance."
-
-    new()
-        Creates a new instance of the module with collected user configuration.
-
-    get_user_configuration()
-        Retrieves the current user configuration of the module.
-
-    get_argspec()
-        Class method to get the argument specification of the module's initializer.
-
-    get_signature()
-        Class method to get the signature of the module's initializer.
-
     Example Usage
     -------------
     To subclass `DeeplayModule`, define an `__init__` method and other necessary methods:
 
-    ```
-    class MyModule(DeeplayModule):
-        def __init__(self, param1, param2):
-            super().__init__()
-            # Initialize your module here
-    ```
+
+    >>> class MyModule(DeeplayModule):
+    >>>     def __init__(self, param1, param2):
+    >>>         super().__init__()
+    >>>         # Initialize your module here
 
     To use the module:
 
-    ```
-    module = MyModule(param1=value1, param2=value2)
-    module.configure(param1=some_value, param2=some_other_value)
-    built_module = module.build()
-    ```
+    >>> module = MyModule(param1=value1, param2=value2)
+    >>> module.configure(param1=some_value, param2=some_other_value)
+    >>> built_module = module.build()
+
     """
 
     __extra_configurables__: List[str] = []
@@ -1539,7 +1509,9 @@ class DeeplayModule(nn.Module, metaclass=ExtendedConstructorMeta):
     def calling_stateful(self):
         class Stateful:
             def __enter__(_):
-                self._is_calling_stateful_method_previous_state = self._is_calling_stateful_method
+                self._is_calling_stateful_method_previous_state = (
+                    self._is_calling_stateful_method
+                )
                 self.root_module._is_calling_stateful_method_previous_state = (
                     self.root_module._is_calling_stateful_method
                 )
@@ -1548,7 +1520,9 @@ class DeeplayModule(nn.Module, metaclass=ExtendedConstructorMeta):
                 self.root_module._is_calling_stateful_method = True
 
             def __exit__(_, *args):
-                self._is_calling_stateful_method = self._is_calling_stateful_method_previous_state
+                self._is_calling_stateful_method = (
+                    self._is_calling_stateful_method_previous_state
+                )
                 self.root_module._is_calling_stateful_method = (
                     self.root_module._is_calling_stateful_method_previous_state
                 )

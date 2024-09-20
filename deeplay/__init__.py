@@ -1,3 +1,7 @@
+"""Deeplay is a deep learning library built on top of PyTorch. 
+It provides a high-level API for building and training deep learning models.
+"""
+
 import warnings
 
 # temporary imports until we implement our own
@@ -18,3 +22,5 @@ from .models import *
 from . import decorators, activelearning, initializers, callbacks, ops
 from .external import Layer
 from .ops import Cat  # For backwards compatibility
+
+__version__ = "0.1.1"

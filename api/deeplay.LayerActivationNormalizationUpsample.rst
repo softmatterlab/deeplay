@@ -1,0 +1,17 @@
+LayerActivationNormalizationUpsample
+====================================
+
+.. currentmodule:: deeplay
+
+.. autoclass:: LayerActivationNormalizationUpsample
+   :show-inheritance:
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~LayerActivationNormalizationUpsample.configure
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: configure
