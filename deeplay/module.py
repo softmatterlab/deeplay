@@ -840,6 +840,7 @@ class DeeplayModule(nn.Module, metaclass=ExtendedConstructorMeta):
         obj = obj.build()
         return obj
 
+    @stateful
     def build(self, *args, **kwargs) -> "DeeplayModule":
         """
         Modifies the current instance of the module in place, finalizing its setup.
@@ -1506,6 +1507,7 @@ class DeeplayModule(nn.Module, metaclass=ExtendedConstructorMeta):
         self.__construct__()
 
     def _append_to_tape(self, obj, method_name, args, kwargs):
+        print(self.root_module._is_calling_stateful_method)
         if (
             self.root_module._is_calling_stateful_method
             or self.is_constructing
@@ -1539,7 +1541,9 @@ class DeeplayModule(nn.Module, metaclass=ExtendedConstructorMeta):
     def calling_stateful(self):
         class Stateful:
             def __enter__(_):
-                self._is_calling_stateful_method_previous_state = self._is_calling_stateful_method
+                self._is_calling_stateful_method_previous_state = (
+                    self._is_calling_stateful_method
+                )
                 self.root_module._is_calling_stateful_method_previous_state = (
                     self.root_module._is_calling_stateful_method
                 )
@@ -1548,12 +1552,45 @@ class DeeplayModule(nn.Module, metaclass=ExtendedConstructorMeta):
                 self.root_module._is_calling_stateful_method = True
 
             def __exit__(_, *args):
-                self._is_calling_stateful_method = self._is_calling_stateful_method_previous_state
+                self._is_calling_stateful_method = (
+                    self._is_calling_stateful_method_previous_state
+                )
                 self.root_module._is_calling_stateful_method = (
                     self.root_module._is_calling_stateful_method_previous_state
                 )
 
         return Stateful()
+
+    def __getstate__(self):
+        args, kwargs = self.get_init_args()
+        _config_tape = self._config_tape
+        state_dict = self.state_dict()
+
+        return {
+            "args": args,
+            "kwargs": kwargs,
+            "_config_tape": _config_tape,
+            "state_dict": state_dict,
+        }
+
+    def __setstate__(self, state):
+
+        object.__setattr__(
+            self,
+            "_actual_init_args",
+            {"args": state["args"], "kwargs": state["kwargs"]},
+        )
+        object.__setattr__(self, "_config_tape", [])
+        object.__setattr__(self, "_is_calling_stateful_method", False)
+
+        self.__pre_init__(self, *state["args"], **state["kwargs"])
+        with not_top_level(ExtendedConstructorMeta, self):
+            self.__construct__()
+            self.__post_init__()
+
+        self._config_tape = state["_config_tape"]
+        self._replay_tape()
+        self.load_state_dict(state["state_dict"])
 
     def _copy_args_and_kwargs(self, args, kwargs, memo=None):
         memo = {} if memo is None else memo
