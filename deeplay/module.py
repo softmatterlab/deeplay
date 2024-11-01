@@ -13,7 +13,6 @@ from torch_geometric.data import Data
 import copy
 import inspect
 import numpy as np
-from zmq import has
 
 from .meta import ExtendedConstructorMeta, not_top_level
 from .decorators import after_init, after_build, stateful
