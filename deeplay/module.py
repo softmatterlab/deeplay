@@ -1540,23 +1540,25 @@ class DeeplayModule(nn.Module, metaclass=ExtendedConstructorMeta):
 
     def calling_stateful(self):
         class Stateful:
-            def __enter__(_):
-                self._is_calling_stateful_method_previous_state = (
+
+            def __init__(st_self):
+                st_self._is_calling_stateful_method_previous_state = (
                     self._is_calling_stateful_method
                 )
-                self.root_module._is_calling_stateful_method_previous_state = (
+                st_self._root_is_calling_stateful_method_previous_state = (
                     self.root_module._is_calling_stateful_method
                 )
 
+            def __enter__(st_self):
                 self._is_calling_stateful_method = True
                 self.root_module._is_calling_stateful_method = True
 
-            def __exit__(_, *args):
+            def __exit__(st_self, *args):
                 self._is_calling_stateful_method = (
-                    self._is_calling_stateful_method_previous_state
+                    st_self._is_calling_stateful_method_previous_state
                 )
                 self.root_module._is_calling_stateful_method = (
-                    self.root_module._is_calling_stateful_method_previous_state
+                    st_self._root_is_calling_stateful_method_previous_state
                 )
 
         return Stateful()
