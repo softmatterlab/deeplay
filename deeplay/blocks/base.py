@@ -108,7 +108,6 @@ class BaseBlock(SequentialBlock):
         shortcut = shortcut or self.get_default_shortcut()
 
         shortcut = Layer(shortcut) if isinstance(shortcut, type) else shortcut
-        # print(shortcut.new())
         self.prepend(shortcut, name="shortcut_start")
         self.append(merge.new(), name="shortcut_end")
         return self
