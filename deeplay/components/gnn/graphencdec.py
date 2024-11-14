@@ -8,9 +8,9 @@ from deeplay import (
     LayerList,
 )
 from deeplay.components.gnn import GraphConvolutionalNeuralNetwork, MessagePassingNeuralNetwork
-from deeplay.components.gnn.pooling import MinCutPooling
+from deeplay.components.gnn.pooling import MinCutPooling, MinCutUpsampling
 from deeplay.ops import Cat
-from deeplay.components.gnn.pooling import GlobalGraphPooling, GlobalGraphUpsampling, MinCutUpsampling
+from deeplay.components.gnn.pooling import GlobalGraphPooling, GlobalGraphUpsampling
 from deeplay.components.gnn.mpn import GetEdgeFeatures
 from deeplay.components.mlp import MultiLayerPerceptron
 

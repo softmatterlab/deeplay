@@ -20,19 +20,15 @@ class GlobalGraphPooling(DeeplayModule):
     X: float (1, Any)    #(number of clusters, number of features)
     S: float (Any, 1)    #(number of nodes, number of clusters)    
     """
-    # select_output_map: Optional[str]
 
     def __init__(
             self,
-            # select_output_map: Optional[str] = "s",
             ):
         super().__init__()
 
-        # self.select_output_map = select_output_map
-
         class Select(DeeplayModule):
             def forward(self, x):
-                return torch.ones((x.shape[0], 1))   # is this the right dim even if we use batches?
+                return torch.ones((x.shape[0], 1))  
             
         class ClusterMatrixForBatch(DeeplayModule):
             def forward(self, S, B):
@@ -52,12 +48,11 @@ class GlobalGraphPooling(DeeplayModule):
 
         class Reduce(DeeplayModule):
             def forward(self, x, s):
-                # return torch.sum(x, dim=0, keepdim=True)
                 return torch.matmul(s.transpose(-2,-1), x)
 
         self.select = Select()
         self.select.set_input_map('x')
-        self.select.set_output_map('s') #self.select_output_map)
+        self.select.set_output_map('s')
 
         self.batch_compatible = ClusterMatrixForBatch()
         self.batch_compatible.set_input_map('s', 'batch')
@@ -79,68 +74,19 @@ class GlobalGraphUpsampling(DeeplayModule):
     Reverse of GlobalGraphPooling.
     Only upsampling the node features.
     """
-    # select_input_map: Optional[str]
 
     def __init__(
             self,
-            # select_input_map: Optional[str] = "s",
             ):
         super().__init__()
-        # self.select_input_map = select_input_map
-
+    
         class Upsample(DeeplayModule):
             def forward(self, x, s):
                 return torch.matmul(s, x)
             
         self.upsample = Upsample()
-        # self.upsample.set_input_map('x_pool', 's')
-        self.upsample.set_input_map('x', 's')#self.select_input_map)
+        self.upsample.set_input_map('x', 's')
         self.upsample.set_output_map('x')
-
-    def forward(self, x):
-        x = self.upsample(x)
-        return x
-
-
-class MinCutUpsampling(DeeplayModule):
-    """
-    Reverse of MinCutPooling as described in 'Spectral Clustering with Graph Neural Networks for Graph Pooling'.
-    """
-    # select_input_map: Optional[str]
-    # connect_input_map: Optional[str]
-
-    def __init__(
-            self,
-            # select_input_map: Optional[str] = "s",
-            # connect_input_map: Optional[str] = "edge_index",
-            ):
-        super().__init__()
-        # self.select_input_map = select_input_map
-        # self.connect_input_map = connect_input_map
-
-        class Upsample(DeeplayModule):
-            def forward(self, x_pool, a_pool, s):
-                x = torch.matmul(s, x_pool)
-
-                if a_pool.is_sparse:
-                    a = torch.spmm(a_pool, s.T)
-                elif (not a_pool.is_sparse) & (a_pool.size(0) == 2):
-                    a_pool = torch.sparse_coo_tensor(
-                        a_pool,
-                        torch.ones(a_pool.size(1)),
-                        ((s.T).size(0),) * 2,
-                        device=a_pool.device,
-                    )
-                    a = torch.spmm(a_pool, s.T)
-                elif (not a_pool.is_sparse) & len({a_pool.size(0), a_pool.size(1), (s.T).size(0)}) == 1:
-                    a = a_pool.type(s.dtype) @ s.T
-            
-                return x, a
-            
-        self.upsample = Upsample()
-        self.upsample.set_input_map('x', 'edge_index_pool', 's')
-        # self.upsample.set_input_map('x', self.connect_input_map, self.select_input_map)
-        self.upsample.set_output_map('x', 'edge_index_')
 
     def forward(self, x):
         x = self.upsample(x)

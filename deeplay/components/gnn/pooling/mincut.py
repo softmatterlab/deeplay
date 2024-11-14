@@ -104,13 +104,19 @@ class MinCutPooling(DeeplayModule):
             def forward(self, A):        
                 ind = torch.arange(A.shape[0])
                 A[ind, ind] = 0                         
-                d = torch.einsum('jk->j', A)            
-                d = torch.sqrt(d)[None] #+ self.eps      
-                d = torch.where(torch.isinf(d), torch.tensor(0.0, device=d.device), d)      # Replace infinities in `d` with 0
-                A = (A / d) / d.transpose(-2,-1)      
+                D = torch.einsum('jk->j', A)            
+                D = torch.sqrt(D)[None] + self.eps      
+                A = (A / D) / D.transpose(-2,-1)      
                 return A
             
         class MinCutLoss(DeeplayModule):
+            def __init__(
+                    self,
+                    eps: Optional[float] = 1e-15,
+                ):
+                super().__init__()
+                self.eps = eps
+
             def forward(self, A, S):
                 n_nodes = S.size(0)            # number of nodes
                 n_clusters = S.size(1)         # number of clusters in total (= number of clusters per graph * num graphs)
@@ -132,16 +138,18 @@ class MinCutPooling(DeeplayModule):
                         "Unsupported adjacency matrix format.",
                         "Ensure it is a pytorch sparse tensor, an edge index tensor, or a square dense tensor.",
                         "Consider updating the propagate layer to handle alternative formats.",
-                    )   
+                    ) 
 
-                D = torch.eye(n_nodes) * degree
+                eps = torch.sparse_coo_tensor(
+                    indices=torch.arange(n_nodes).repeat(2, 1),
+                    values=torch.zeros(n_nodes) + self.eps,
+                    size=(n_nodes, n_nodes),
+                )  
 
-                denominator_trace = torch.trace(torch.matmul(S.transpose(-2, -1), torch.matmul(D, S)))
-                denominator_trace[denominator_trace == float('inf')] = 0                # Replace infinities in `D` with 0
+                D = torch.eye(n_nodes) * degree + eps
 
                 # cut loss:
-                # L_cut = - torch.trace(torch.matmul(S.transpose(-2,-1), torch.matmul(A, S))) / (torch.trace(torch.matmul(S.transpose(-2,-1), torch.matmul(D, S))))
-                L_cut = - torch.trace(torch.matmul(S.transpose(-2,-1), torch.matmul(A, S))) / denominator_trace
+                L_cut = - torch.trace(torch.matmul(S.transpose(-2,-1), torch.matmul(A, S))) / (torch.trace(torch.matmul(S.transpose(-2,-1), torch.matmul(D, S))))
 
                 # orthogonality loss:
                 L_ortho = torch.linalg.norm(
@@ -236,6 +244,44 @@ class MinCutPooling(DeeplayModule):
 
         x = self.sparse(x)
 
+        return x
+    
+
+class MinCutUpsampling(DeeplayModule):
+    """
+    Reverse of MinCutPooling as described in 'Spectral Clustering with Graph Neural Networks for Graph Pooling'.
+    """
+
+    def __init__(
+            self,
+            ):
+        super().__init__()
+
+        class Upsample(DeeplayModule):
+            def forward(self, x_pool, a_pool, s):
+                x = torch.matmul(s, x_pool)
+
+                if a_pool.is_sparse:
+                    a = torch.spmm(a_pool, s.T)
+                elif (not a_pool.is_sparse) & (a_pool.size(0) == 2):
+                    a_pool = torch.sparse_coo_tensor(
+                        a_pool,
+                        torch.ones(a_pool.size(1)),
+                        ((s.T).size(0),) * 2,
+                        device=a_pool.device,
+                    )
+                    a = torch.spmm(a_pool, s.T)
+                elif (not a_pool.is_sparse) & len({a_pool.size(0), a_pool.size(1), (s.T).size(0)}) == 1:
+                    a = a_pool.type(s.dtype) @ s.T
+            
+                return x, a
+            
+        self.upsample = Upsample()
+        self.upsample.set_input_map('x', 'edge_index_pool', 's')
+        self.upsample.set_output_map('x', 'edge_index_')
+
+    def forward(self, x):
+        x = self.upsample(x)
         return x
     
     
