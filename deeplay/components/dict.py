@@ -1,4 +1,4 @@
-from typing import Dict, Any, Union, Tuple, overload
+from typing import Dict, Any, Union, Tuple, Dict
 
 from deeplay import DeeplayModule
 
@@ -53,4 +53,29 @@ class AddDict(DeeplayModule):
             x = x.copy()
 
         x.update({key: torch.add(x[key], y[key]) for key in self.keys})
+        return x
+
+
+class CatDictElements(DeeplayModule):
+    """
+    Concatenates specified elements within a dictionary-like structure along a given dimension.
+
+    Parameters:
+    - keys: Tuple of tuples, where each tuple contains the source and target keys to concatenate.
+    - dim: Dimension along which concatenation occurs. Default is -1.
+    """
+
+    def __init__(self, *keys: Tuple[tuple], dim: int = -1):
+        super().__init__()
+        self.source, self.target = zip(*keys)
+        self.dim = dim
+
+    def forward(self, x: Union[Dict[str, Any], Data]) -> Union[Dict[str, Any], Data]:
+        x = x.clone() if isinstance(x, Data) else x.copy()
+        x.update(
+            {
+                t: torch.cat([x[t], x[s]], dim=self.dim)
+                for t, s in zip(self.target, self.source)
+            }
+        )
         return x
