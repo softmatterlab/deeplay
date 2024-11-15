@@ -66,13 +66,19 @@ class MIRO(Application):
         )
         return self.loss(compressed_pred_distances, compressed_gt_distances)
 
-    def clustering(
-        self, x, eps, min_samples, from_iter=-1, scaling=np.array([1.0, 1.0])
-    ):
+    def squeeze(self, x, from_iter=-1, scaling=np.array([1.0, 1.0])):
         pred = self(x)[from_iter].detach().cpu().numpy()
+        return (x.position.cpu() - pred * self.connectivity_radius).numpy() * scaling
 
-        squeezed = x.position.cpu() - pred * self.connectivity_radius
-        squeezed = squeezed.numpy() * scaling
+    def clustering(
+        self,
+        x,
+        eps,
+        min_samples,
+        from_iter=-1,
+        **kwargs,
+    ):
+        squeezed = self.squeeze(x, from_iter, **kwargs)
         clusters = DBSCAN(eps=eps, min_samples=min_samples).fit(squeezed)
 
         return clusters.labels_
