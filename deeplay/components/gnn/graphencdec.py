@@ -407,6 +407,8 @@ class GraphEncoderBlock(DeeplayModule):
             )
         
         self.gcn.normalize.set_input_map('x', edge_index_map)
+        self.gcn.normalize.set_output_map('laplacian')
+        self.gcn.propagate.set_input_map("x", "laplacian")
             
         if pool == MinCutPooling:
             if num_clusters is None:
@@ -528,6 +530,8 @@ class GraphDecoderBlock(DeeplayModule):
             )
         
         self.gcn.normalize.set_input_map('x', edge_index_map)
+        self.gcn.normalize.set_output_map('laplacian')
+        self.gcn.propagate.set_input_map("x", "laplacian")
 
     def forward(self, x):
         x = self.upsample(x)

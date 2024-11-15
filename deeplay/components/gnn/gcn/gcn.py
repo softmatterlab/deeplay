@@ -82,7 +82,7 @@ class GraphConvolutionalNeuralNetwork(DeeplayModule):
 
         self.normalize = Layer(sparse_laplacian_normalization)
         self.normalize.set_input_map("x", "edge_index")
-        self.normalize.set_output_map("laplacian")
+        self.normalize.set_output_map("edge_index")
 
         class Propagate(DeeplayModule):
             def forward(self, x, A):
@@ -115,7 +115,7 @@ class GraphConvolutionalNeuralNetwork(DeeplayModule):
             transform.set_output_map("x")
 
             propagate = Layer(Propagate)
-            propagate.set_input_map("x", "laplacian")
+            propagate.set_input_map("x", "edge_index")
             propagate.set_output_map("x")
 
             update = Layer(nn.ReLU) if i < len(self.hidden_features) else out_activation
