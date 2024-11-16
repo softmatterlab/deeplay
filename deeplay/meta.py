@@ -44,15 +44,24 @@ class ExtendedConstructorMeta(type):
         )
         object.__setattr__(obj, "_config_tape", [])
         object.__setattr__(obj, "_is_calling_stateful_method", False)
+        # object.__setattr__(obj, "is_constructing", False)
 
         # First, we call the __pre_init__ method of the class
         cls.__pre_init__(obj, *args, **kwargs)
+
+        object.__setattr__(obj, "_default_attribute_keys", set(obj.__dict__.keys()))
 
         # Next, we construct the class. The not_top_level context manager is used to
         # keep track of where in the object hierarchy we currently are.
         with not_top_level(cls, obj):
             obj.__construct__()
             obj.__post_init__()
+
+        object.__setattr__(
+            obj,
+            "_user_attribute_keys",
+            set(obj.__dict__.keys()) - obj._default_attribute_keys,
+        )
 
         return obj
 

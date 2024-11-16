@@ -510,29 +510,10 @@ class Application(DeeplayModule, L.LightningModule):
                 self._store_hparams(*args, **kwargs)
             except PicklingError:
                 warn("Could not store hparams, checkpointing might not be available.")
-                self.__construct__()
 
         return super().build(*args, **kwargs)
 
     def _store_hparams(self, *args, **kwargs):
-        import pickle
-
-        for name, module in self.named_modules():
-            if not isinstance(module, DeeplayModule):
-                continue
-            self._user_config.remove_derived_configurations(module.tags)
-            self.__parent_hooks__ = {
-                "before_build": [],
-                "after_build": [],
-                "after_init": [],
-            }
-            self.__constructor_hooks__ = {
-                "before_build": [],
-                "after_build": [],
-                "after_init": [],
-            }
-        self._modules.clear()
-
         _pickled_application = dill.dumps(self)
         self._set_hparams(
             {
@@ -541,9 +522,6 @@ class Application(DeeplayModule, L.LightningModule):
                 "__build_kwargs": kwargs,
             }
         )
-
-        # restore the application
-        self.__construct__()
 
     # @classmethod
     # def load_from_checkpoint(cls, checkpoint_path: str | Path | np.IO, map_location: torch.device | str | int | Callable[[UntypedStorage, str], UntypedStorage | None] | Dict[torch.device | str | int, torch.device | str | int] | None = None, hparams_file: str | Path | None = None, strict: bool | None = None, **kwargs: Any) -> Self:
