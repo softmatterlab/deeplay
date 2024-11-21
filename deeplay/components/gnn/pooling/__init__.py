@@ -1,2 +1,2 @@
-from .mincut import *
-from .globalpool import *
+from .mincut import MinCutPooling, MinCutUpsampling
+from .globalpool import GlobalGraphPooling, GlobalGraphUpsampling

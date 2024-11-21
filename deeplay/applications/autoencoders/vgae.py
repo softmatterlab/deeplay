@@ -9,46 +9,71 @@ from deeplay import (
     Layer,
 )
 
-
 import torch
 import torch.nn as nn
 
 
 class VariationalGraphAutoEncoder(Application):
-    channels: list
+    """ Variational Auto Encoder for Graphs 
+
+    Parameters
+    ----------
+    encoder : nn.Module
+    decoder : nn.Module
+    hidden_features : int
+        Number of features of the hidden layers
     latent_dim: int
+        Number of latent dimensions
+    alpha: float
+        Weighting for the node feature reconstruction loss. Defaults to 1
+    beta: float
+        Weighting for the KL loss. Defaults to 1e-7
+    gamma: float
+        Weighting for the edge feature reconstruction loss. Defaults to 1
+    delta: float
+        Weighting for the MinCut loss. Defaults to 1
+    reconstruction_loss: Reconstruction loss
+        Loss metric for the reconstruction of the node and edge features. Defaults to L1 (Mean absolute error).
+    optimizer: Optimizer
+        Optimizer to use for training.
+    """
+    
     encoder: torch.nn.Module
     decoder: torch.nn.Module
+    hidden_features: int
+    latent_dim: int
+    alpha: float
     beta: float
+    gamma: float
+    delta: float
     reconstruction_loss: torch.nn.Module
-    metrics: list
     optimizer: Optimizer
 
     def __init__(
         self,
-        channels: Optional[int] = 96,
         encoder: Optional[nn.Module] = None,
         decoder: Optional[nn.Module] = None,
-        reconstruction_loss: Optional[Callable] = nn.L1Loss(),
+        hidden_features: Optional[int] = 96,
         latent_dim=int,
-        alpha: Optional[int] = 1,
-        beta: Optional[int] = 1e-7,
-        gamma: Optional[int] = 1,
-        delta: Optional[int] = 1,
+        alpha: Optional[float] = 1,
+        beta: Optional[float] = 1e-7,
+        gamma: Optional[float] = 1,
+        delta: Optional[float] = 1,
+        reconstruction_loss: Optional[Callable] = nn.L1Loss(),
         optimizer=None,
         **kwargs,
     ):
         self.encoder = encoder
         
-        self.fc_mu = Layer(nn.Linear, channels, latent_dim)
+        self.fc_mu = Layer(nn.Linear, hidden_features, latent_dim)
         self.fc_mu.set_input_map('x')
         self.fc_mu.set_output_map('mu')
         
-        self.fc_var = Layer(nn.Linear, channels, latent_dim)
+        self.fc_var = Layer(nn.Linear, hidden_features, latent_dim)
         self.fc_var.set_input_map('x')
         self.fc_var.set_output_map('log_var')
 
-        self.fc_dec = Layer(nn.Linear, latent_dim, channels)
+        self.fc_dec = Layer(nn.Linear, latent_dim, hidden_features)
         self.fc_dec.set_input_map('z')
         self.fc_dec.set_output_map('x')
 
@@ -56,10 +81,10 @@ class VariationalGraphAutoEncoder(Application):
 
         self.reconstruction_loss = reconstruction_loss or nn.L1Loss()
         self.latent_dim = latent_dim
-        self.alpha = alpha                                                  # node feature reconstruction loss weight
-        self.beta = beta                                                    # KL loss weight
-        self.gamma = gamma                                                  # edge feature reconstruction loss weight
-        self.delta = delta                                                  # MinCut loss weight
+        self.alpha = alpha
+        self.beta = beta                                               
+        self.gamma = gamma
+        self.delta = delta
 
         super().__init__(**kwargs)
 

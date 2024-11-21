@@ -32,23 +32,27 @@ class GraphEncoder(DeeplayModule):
         The number of clusters the graph is pooled to in each processing block.
     thresholds: list[float]
         The threshold values for the connectivity in the clustering process.
-    poolings: template-like
-        A list of pooling layers to use. Default is using MinCut pooling for all layers, except for the
-        last, which is global pooling.
-    save_intermediates: bool
-        Flag indicating whether to save intermediate adjacency matrices and other information, useful
-        when using it together with the GraphDecoder. Default is True.
-
     
     Configurables
     -------------
     - hidden features (int): Number of features of the hidden layers.
-    - num_blocks: (int): Number of processing blocks in the encoder.
-    - num_clusters: list[int]: Number of clusters the graph is pooled to in each processing block.
+    - num_blocks (int): Number of processing blocks in the encoder.
+    - num_clusters list[int]: Number of clusters the graph is pooled to in each processing block.
     - thresholds list[int]: The threshold values for the connectivity in the clustering process.
+    - poolings (template-like):A list of pooling layers to use. Default is using MinCut pooling for all layers,
+        except for the last, which is global pooling.
+    - save_intermediates (bool): Flag indicating whether to save intermediate adjacency matrices and other information, useful
+        when using it together with the GraphDecoder. Default is True.
 
+    Constraints
+    -----------
+    - input: Dict[str, Any] or torch-geometric Data object containing the following attributes:
+        - x: torch.Tensor of shape (num_nodes, node_features)
+        - edge_index: torch.Tensor of shape (2, num_edges)
+        - batch: torch.Tensor of shape (num_nodes)
+        - edge_attr: torch.Tensor of shape (num_edges, edge_features)
 
-    Evaluation
+    Example
     ----------
     >>> encoder = dl.GraphEncoder(hidden_features=96, num_blocks=3, num_clusters=[5, 3, 1], thresholds=[0.1, 0.2, None], save_intermediates=False).build()
     >>> inp = {}
@@ -175,32 +179,39 @@ class GraphDecoder(DeeplayModule):
     by the GraphEncoder. This module aims to decode the latent graph features back into graph node
     and edge attributes.
 
-    Attributes:
-        hidden_features: int 
-            The dimensionality of the hidden layers of the decoder. This should match the hidden 
-            features from the corresponding GraphEncoder.
-        num_blocks: int
-            The number of processing blocks in the decoder. This should match the number of blocks
-            of the GraphEncoder.
-        output_node_dim: int 
-            The dimensionality of the output node features. This should match the original dimensionallity
-            of the input node features of the GraphEncoder.
-        output_edge_dim: int 
-            The dimensionality of the output edge features. This should match the original dimensionallity 
-            of the input edge attributes of the GraphEncoder.
-        upsamplings: template-like
-            A list of upsampling layers to use. Default is using MinCut upsampling for all layers, except for the
-            first, which is global upsampling. This should reflect the pooling layers of the GraphEncoder.
-
+    Parameters
+    ----------
+    hidden_features: int 
+        The dimensionality of the hidden layers of the decoder. This should match the hidden 
+        features from the corresponding GraphEncoder.
+    num_blocks: int
+        The number of processing blocks in the decoder. This should match the number of blocks
+        of the GraphEncoder.
+    output_node_dim: int 
+        The dimensionality of the output node features. This should match the original dimensionallity
+        of the input node features of the GraphEncoder.
+    output_edge_dim: int 
+        The dimensionality of the output edge features. This should match the original dimensionallity 
+        of the input edge attributes of the GraphEncoder.
     
     Configurables
     -------------
     - hidden features (int): Number of features of the hidden layers.
-    - num_blocks: (int): Number of processing blocks in the decoder.
-    - output_node_dim: (int): Number of dimensions of the output node features.
-    - output_edge_dim: (int): Number of dimensions of the output edge attributes.
+    - num_blocks (int): Number of processing blocks in the decoder.
+    - output_node_dim (int): Number of dimensions of the output node features.
+    - output_edge_dim (int): Number of dimensions of the output edge attributes.
+    - upsamplings (template-like): A list of upsampling layers to use. Default is using MinCut upsampling
+        for all layers, except for the first, which is global upsampling. This should reflect the pooling
+        layers of the GraphEncoder.
+
+    Constraints
+    -----------
+    - input: Dict[str, Any] or torch-geometric Data object containing the following attributes:
+        - x: torch.Tensor of shape (num_nodes, node_features)
+        - edge_index: torch.Tensor of shape (2, num_edges)
+        - batch: torch.Tensor of shape (num_nodes)
     
-    Evaluation
+    Example
     ----------
     >>> encoder = dl.GraphEncoder(hidden_features=96, num_blocks=3, num_clusters=[20, 5, 1], thresholds=[0.1, 0.5, None], save_intermediates=False).build()
     >>> inp = {}
@@ -327,29 +338,31 @@ class GraphEncoderBlock(DeeplayModule):
         The number of input features for each node in the graph.
     out_features: int
         The number of output features for each node after processing.
-    pool: Optional[template-like]
-        The pooling operation to be used. Defaults to MinCutPooling.
-    num_clusters: Optional[int]
-        The number of clusters for MinCutPooling. Must be provided if using MinCutPooling.
-    threshold: Optional[float]
-        Threshold value for pooling operations.
-    edge_index_map: Optional[str]
-        The mapping for edge index inputs. Defaults to "edge_index".
-    select_output_map: Optional[str]
-        The mapping for the selection outputs from the pooling layer. Defaults to "s".
-    connect_output_map: Optional[str]
-        The mapping for connecting outputs to subsequent layers. Defaults to "edge_index_pool".
-    batch_input_map: Optional[str]
-        The mapping for batch input. Defaults to "batch".
-    batch_output_map: Optional[str]
-        The mapping for batch output. Defaults to "batch".
-    mincut_cut_loss_map: Optional[str]
-        The mapping for saving the mincut cut loss. Defaults to "L_cut".
-    mincut_ortho_loss_map: Optional[str]
-        The mapping for saving the mincut orthogonallity loss. Defaults to "L_ortho".
 
+    Configurables
+    -------------
+    - in_features (int): The number of input features for each node in the graph.
+    - out_features (int): The number of output features for each node after processing.
+    - pool (template-like): The pooling operation to be used. Defaults to MinCutPooling.
+    - num_clusters (int): The number of clusters for MinCutPooling. Must be provided if using MinCutPooling.
+    - threshold (float): Threshold value for pooling operations.
+    - edge_index_map (str): The mapping for edge index inputs. Defaults to "edge_index".
+    - select_output_map (str): The mapping for the selection outputs from the pooling layer. Defaults to "s".
+    - connect_output_map (str): The mapping for connecting outputs to subsequent layers. Defaults to "edge_index_pool".
+    - batch_input_map (str): The mapping for batch input. Defaults to "batch".
+    - batch_output_map (str): The mapping for batch output. Defaults to "batch".
+    - mincut_cut_loss_map (str): The mapping for saving the mincut cut loss. Defaults to "L_cut".
+    - mincut_ortho_loss_map (str): The mapping for saving the mincut orthogonallity loss. Defaults to "L_ortho".
 
-    Evaluation
+    Constraints
+    -----------
+    - input: Dict[str, Any] or torch-geometric Data object containing the following attributes:
+        - x: torch.Tensor of shape (num_nodes, node_features)
+        - edge_index: torch.Tensor of shape (2, num_edges)
+        - batch: torch.Tensor of shape (num_nodes)
+        - edge_attr: torch.Tensor of shape (num_edges, edge_features)
+
+    Example
     ----------
         >>> block = dl.GraphEncoderBlock(in_features=16, out_features=16, num_clusters=5, threshold=0.1).build()
         >>> inp = {}
@@ -452,28 +465,25 @@ class GraphDecoderBlock(DeeplayModule):
     This block is a fundamental component of the GraphDecoder, enabling the reconstruction of graph features
     in a Graph Encoder Decoder model.
      
-
     Parameters
     ----------
     in_features: int
         The number of input features for each node in the graph.
     out_features: int
         The number of output features for each node after processing.
-    upsample: Optional[template-like]
-        The upsampling operation to be used. Defaults to MinCutUpsampling.
-    edge_index_map: Optional[str]
-        The mapping for edge index inputs. Defaults to "edge_index".
-    select_input_map: Optional[str]
-        The mapping for selection inputs for the upsampling layer. Defaults to "s".
-    connect_input_map: Optional[str]
-        The mapping for the connectivity for the upsampling layer. Defaults to "edge_index_pool".
-    connect_output_map: Optional[str]
-        The mapping for the connectivity outputs of the upsampling layer. Defaults to "-".
-    batch_map: Optional[str]
-        The mapping for batch inputs or outputs. Defaults to "batch".
-
+   
+    Configurables
+    -------------
+    - in_features (int): The number of input features for each node in the graph.
+    - out_features (int): The number of output features for each node after processing.
+    - upsample (template-like): The upsampling operation to be used. Defaults to MinCutUpsampling.
+    - edge_index_map (str): The mapping for edge index inputs. Defaults to "edge_index".
+    - select_input_map (str): The mapping for selection inputs for the upsampling layer. Defaults to "s".
+    - connect_input_map (str): The mapping for the connectivity for the upsampling layer. Defaults to "edge_index_pool".
+    - connect_output_map (str): The mapping for the connectivity outputs of the upsampling layer. Defaults to "-".
+    - batch_map (str): The mapping for batch inputs or outputs. Defaults to "batch".
         
-    Evaluation
+    Example
     ----------
         >>> encoderblock = dl.GraphEncoderBlock(in_features=16, out_features=16, num_clusters=5, threshold=0.2).build()
         >>> inp = {}
@@ -484,6 +494,7 @@ class GraphDecoderBlock(DeeplayModule):
         >>> encoderblock_output = encoderblock(inp)
         >>> decoderblock = dl.GraphDecoderBlock(in_features=16, out_features=16).build()
         >>> decoderblock_output = decoderblock(encoderblock_output)
+
     """
     in_features: int
     out_features: int

@@ -11,14 +11,23 @@ class GlobalGraphPooling(DeeplayModule):
     (Inspired by MinCut-pooling ('Spectral Clustering with Graph Neural Networks for Graph Pooling'):
     but with the assignment matrix S being deterministic (all nodes are pooled into one cluster))
 
-    Input
-    -----
-    X: float (Any, Any)  #(number of nodes, number of features)
-    
-    Output
-    ------
-    X: float (1, Any)    #(number of clusters, number of features)
-    S: float (Any, 1)    #(number of nodes, number of clusters)    
+    Constraints
+    -----------
+    - input: Dict[str, Any] or torch-geometric Data object containing the following attributes:
+        - x: torch.Tensor of shape (num_nodes, node_features)
+
+    - output: Dict[str, Any] or torch-geometric Data object containing the following attributes:
+        - x: torch.Tensor of shape (num_clusters, node_features)
+        - s: torch.Tensor of shape (num_nodes, num_clusters)
+
+    Examples
+    --------
+    >>> global_pool = GlobalGraphPooling().build()
+    >>> inp = {}
+    >>> inp["x"] = torch.randn(3, 2)
+    >>> inp["batch"] = torch.zeros(3, dtype=int)
+    >>> inp["edge_index"] = torch.tensor([[0, 1, 1, 2], [1, 0, 2, 1]])
+    >>> out = global_pool(inp)
     """
 
     def __init__(
@@ -73,6 +82,25 @@ class GlobalGraphUpsampling(DeeplayModule):
     """
     Reverse of GlobalGraphPooling.
     Only upsampling the node features.
+
+    Constraints
+    -----------
+    - input: Dict[str, Any] or torch-geometric Data object containing the following attributes:
+        - x: torch.Tensor of shape (num_clusters, node_features)
+        - s: torch.Tensor of shape (num_nodes, num_clusters)
+
+    - output: Dict[str, Any] or torch-geometric Data object containing the following attributes:
+        - x: torch.Tensor of shape (num_nodes, node_features)
+        
+    Examples
+    --------
+    >>> global_upsampling = GlobalGraphUpsampling()
+    >>> global_upsampling = global_upsampling.build()
+
+    >>> inp = {}
+    >>> inp["x"] = torch.randn(1, 2)
+    >>> inp["s"] = torch.ones((3, 1))
+    >>> out = global_upsampling(inp)
     """
 
     def __init__(

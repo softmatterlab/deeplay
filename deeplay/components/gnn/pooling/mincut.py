@@ -17,12 +17,22 @@ class MinCutPooling(DeeplayModule):
         The number of clusters to which each graph is pooled.
     hidden_features: Sequence[int]
         The number of hidden features for the Multi-Layer Perceptron (MLP) used for selecting clusters for the pooling.
-    reduce_self_connection: Optional[bool]
-        Whether to reduce self-connections in the adjacency matrix. Defaults to True.
-    threshold: Optional[float]
-        A threshold value to apply to the adjacency matrix to binarize the edges. If None, no threshold is applied.
+ 
+    Configurables
+    -------------
+    - num_clusters (int): The number of clusters to which each graph is pooled.
+    - hidden_features (list[int]): The number of hidden features for the Multi-Layer Perceptron (MLP) used for selecting clusters for the pooling.
+    - reduce_self_connection (bool): Whether to reduce self-connections in the adjacency matrix. Defaults to True.
+    - threshold (float): A threshold value to apply to the adjacency matrix to binarize the edges. If None, no threshold is applied. Default is None.
 
-    Evaluation
+    Constraints
+    -----------
+    - input: Dict[str, Any] or torch-geometric Data object containing the following attributes:
+        - x: torch.Tensor of shape (num_nodes, node_features)
+        - edge_index: torch.Tensor of shape (2, num_edges)
+        - batch: torch.Tensor of shape (num_nodes)
+
+    Example
     ----------
         >>> MinCut = dl.components.gnn.pooling.MinCutPooling(hidden_features = [8], num_clusters = 5, reduce_self_connection = True, threshold = 0.25).build()
         >>> inp = {}
@@ -250,6 +260,25 @@ class MinCutPooling(DeeplayModule):
 class MinCutUpsampling(DeeplayModule):
     """
     Reverse of MinCutPooling as described in 'Spectral Clustering with Graph Neural Networks for Graph Pooling'.
+
+    Constraints
+    -----------
+    - input: Dict[str, Any] or torch-geometric Data object containing the following attributes:
+        - x: torch.Tensor of shape (num_clusters, node_features).
+        - edge_index_pool: torch.Tensor of shape (2, num_edges).
+        - batch: torch.Tensor of shape (num_clusters).
+        - s: torch.Tensor of shape (num_nodes, num_clusters)
+
+    Example
+    ----------
+        >>> mincut_upsample = MinCutUpsampling().build()
+        >>> inp = {}
+        >>> inp["x"] = torch.randn(2, 1)
+        >>> inp["batch"] = torch.zeros(2, dtype=int)
+        >>> inp['s'] = torch.tensor([[1.0, 0], [0, 1.0], [1.0, 0]])
+        >>> inp["edge_index_pool"] = torch.tensor([[0, 1], [1, 0]])
+        >>> out = mincut_upsample(inp)
+
     """
 
     def __init__(
@@ -262,7 +291,7 @@ class MinCutUpsampling(DeeplayModule):
                 x = torch.matmul(s, x_pool)
 
                 if a_pool.is_sparse:
-                    a = torch.spmm(a_pool, s.T)
+                    a = torch.spmm(s, torch.spmm(a_pool, s.T))
                 elif (not a_pool.is_sparse) & (a_pool.size(0) == 2):
                     a_pool = torch.sparse_coo_tensor(
                         a_pool,
@@ -270,15 +299,15 @@ class MinCutUpsampling(DeeplayModule):
                         ((s.T).size(0),) * 2,
                         device=a_pool.device,
                     )
-                    a = torch.spmm(a_pool, s.T)
+                    a = torch.spmm(s, torch.spmm(a_pool, s.T))
                 elif (not a_pool.is_sparse) & len({a_pool.size(0), a_pool.size(1), (s.T).size(0)}) == 1:
-                    a = a_pool.type(s.dtype) @ s.T
+                    a = s @ a_pool.type(s.dtype) @ s.T
             
                 return x, a
             
         self.upsample = Upsample()
         self.upsample.set_input_map('x', 'edge_index_pool', 's')
-        self.upsample.set_output_map('x', 'edge_index_')
+        self.upsample.set_output_map('x', 'edge_index')
 
     def forward(self, x):
         x = self.upsample(x)
