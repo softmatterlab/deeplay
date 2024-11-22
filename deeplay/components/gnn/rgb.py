@@ -1,4 +1,5 @@
 import torch
+from torch_geometric.data import Data
 from deeplay import DeeplayModule
 from deeplay.components.dict import CatDictElements
 
@@ -32,6 +33,7 @@ class RecurrentGraphBlock(DeeplayModule):
         self.hidden_variables_name = self.combine.target
 
     def initialize_hidden(self, x):
+        x = x.clone() if isinstance(x, Data) else x.copy()
         for source, hidden_variable_name in zip(
             self.combine.source, self.hidden_variables_name
         ):
