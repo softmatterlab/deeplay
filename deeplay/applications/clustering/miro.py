@@ -12,6 +12,41 @@ from sklearn.cluster import DBSCAN
 
 
 class MIRO(Application):
+    """
+    Point cloud clustering using MIRO (Multimodal Integration through Relational Optimization).
+
+    Parameters
+    ----------
+    num_outputs : int
+        Dimensionality of the output features, representing a displacement vector in Cartesian space for each node. This vector points toward the center of each cluster.
+    connectivity_radius : float
+        Maximum distance between two nodes to consider them connected in the graph.
+    model : nn.Module
+        A model implementing the forward method. It should return a tensor of shape `(num_nodes, num_outputs)` representing the predicted displacement vectors for each node,
+        or a list of tensors of the same shape for predictions at each recurrent iteration (default). If not specified, a default model resembling the one from the original MIRO paper is used.
+    nd_loss_weight : float
+        Weight for the auxiliary loss that enforces preservation of pairwise distances between connected nodes.
+    loss : torch.nn.Module
+        Loss function for training. Default is `torch.nn.L1Loss`.
+    optimizer : Optimizer
+        Optimizer for training. Default is Adam with a learning rate of 1e-4.
+
+    Clustering
+    ------------------
+    The clustering method `clustering` leverages the predicted displacement vectors to group nodes into clusters using the DBSCAN algorithm. The displacement vector points each node toward its corresponding cluster center, enabling robust identification of clusters in the point cloud.
+
+    Example
+    --------
+    >>> # Perform clustering
+    >>> eps = 0.3  # Maximum distance for cluster connection
+    >>> min_samples = 5  # Minimum points to form a cluster
+    >>> clusters = model.clustering(test_graph, eps, min_samples)
+
+    >>> # Output cluster labels
+    >>> print(clusters)
+    array([ 0,  0,  1,  1,  1, -1,  2,  2,  2, ...])  # Nodes in cluster 0, 1, 2, etc.; -1 are outliers
+    """
+
     num_outputs: int
     connectivity_radius: float
     model: nn.Module
@@ -78,6 +113,24 @@ class MIRO(Application):
         from_iter=-1,
         **kwargs,
     ):
+        """
+        Perform clustering using the DBSCAN algorithm, with MIRO preprocessing
+        to optimize the input point cloud for effective clustering.
+
+        Parameters
+        ----------
+        x : torch_geometric.data.Data
+            Input graph data.
+        eps : float
+            The maximum distance between two samples for one to be considered
+            as in the neighborhood of the other. This is not a maximum bound
+            on the distances of points within a cluster. This is the most
+            important DBSCAN parameter to choose appropriately for your data set
+            and distance function.
+        min_samples : int
+            The number of samples (or total weight) in a neighborhood for a point
+            to be considered as a core point. This includes the point itself.
+        """
         squeezed = self.squeeze(x, from_iter, **kwargs)
         clusters = DBSCAN(eps=eps, min_samples=min_samples).fit(squeezed)
 

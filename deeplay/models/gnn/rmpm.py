@@ -14,7 +14,62 @@ import torch.nn as nn
 
 
 class RecurrentMessagePassingModel(DeeplayModule):
-    """Recurrent Message Passing Neural Network (RMPN) model."""
+    """Recurrent Message Passing Neural Network (RMPN) model.
+
+    Parameters
+    ----------
+    hidden_features: int
+        Number of hidden units in the recurrent message passing layer.
+    out_features: int
+        Number of output features.
+    num_iter: int
+        Number of iterations of the recurrent message passing layer.
+    out_activation: template-like
+        Specification for the output activation of the model. Default: nn.Identity.
+
+
+    Configurables
+    -------------
+    - hidden_features (int): Number of hidden units in the recurrent message passing layer.
+    - out_features (int): Number of output features.
+    - out_activation (template-like): Specification for the output activation of the model. Default: nn.Identity.
+    - encoder (template-like): Specification for the encoder of the model. Default: dl.Parallel consisting of two MLPs to process node and edge features.
+    - backbone (template-like): Specification for the backbone of the model. Default: dl.RecurrentGraphBlock consisting of dl.MessagePassingNeuralNetwork and a MLP head.
+
+    Constraints
+    -----------
+    - input: Dict[str, Any] or torch-geometric Data object containing the following attributes:
+        - x: torch.Tensor of shape (num_nodes, node_in_features).
+        - edge_index: torch.Tensor of shape (2, num_edges).
+        - edge_attr: torch.Tensor of shape (num_edges, edge_in_features).
+        - hidden_x: (Optional) torch.Tensor of shape (num_nodes, hidden_features).
+        - hidden_edge_attr: (Optional) torch.Tensor of shape (num_edges, hidden_features).
+
+        NOTE: node_in_features and edge_in_features are inferred from the input data.
+
+    - output: List[torch.Tensor] where each tensor has shape (num_nodes, out_features).
+
+    Examples
+    --------
+    >>> # Define a RMPN model with 96 hidden features, 2 output features, and 3 iterations
+    >>> model = RecurrentMessagePassingModel(hidden_features=96, out_features=2, num_iter=3)
+
+    >>> # Input graph data
+    >>> inp = {
+    >>>     "x": torch.randn(10, 5),  # Node features
+    >>>     "edge_index": torch.randint(0, 10, (2, 20)),  # Edge connectivity
+    >>>     "edge_attr": torch.randn(20, 3),  # Edge features
+    >>> }
+
+    >>> # Model forward pass
+    >>> out = model(inp)
+
+    >>> # Output shape
+    >>> print(len(out))
+    3
+    >>> print(out[0].shape)
+    torch.Size([10, 2])
+    """
 
     hidden_features: int
     out_features: int

@@ -61,8 +61,11 @@ class CatDictElements(DeeplayModule):
     Concatenates specified elements within a dictionary-like structure along a given dimension.
 
     Parameters:
-    - keys: Tuple of tuples, where each tuple contains the source and target keys to concatenate.
-    - dim: Dimension along which concatenation occurs. Default is -1.
+    - keys: Tuple[tuple]
+        Specifies the keys to be concatenated as tuples. Each tuple contains two keys: source and target.
+        The source key is the key to be concatenated with the target key.
+    - dim: int
+        Specifies the dimension along which the concatenation is performed.
     """
 
     def __init__(self, *keys: Tuple[tuple], dim: int = -1):
