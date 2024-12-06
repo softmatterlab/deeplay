@@ -41,64 +41,64 @@ Here you find a series of notebooks that give you an overview of the core featur
 
   Layers, Blocks, Components, Models, Applications.
 
-- GS111 **[Training Your First Model](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS111_first_model.ipynb)**
+- GS111 **[Training Your First Model](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS111_first_model.ipynb)** <a href="https://colab.research.google.com/github/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS111_first_model.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg"></a>
 
   Creating, training, saving and using a deep learning model with Deeplay.
 
-- GS121 **[Working with Deeplay Modules](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS121_modules.ipynb)**
+- GS121 **[Working with Deeplay Modules](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS121_modules.ipynb)** <a href="https://colab.research.google.com/github/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS121_modules.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg"></a>
 
   Differences between Deeplay and PyTorch modules. How to create, build, and configure Deeplay modules.
 
-- GS131 **[Using the Main Deeplay Methods](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS131_methods.ipynb)**
+- GS131 **[Using the Main Deeplay Methods](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS131_methods.ipynb)** <a href="https://colab.research.google.com/github/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS131_methods.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg"></a>
 
   `Application.fit()`, `Application.test()`, `DeeplayModule.predict()`, `Trainer.fit()`.
 
-- GS141 **[Using Deeplay Applications](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS141_applications.ipynb)**
+- GS141 **[Using Deeplay Applications](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS141_applications.ipynb)** <a href="https://colab.research.google.com/github/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS141_applications.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg"></a>
 
   Main Deeplay applications. Controlling loss functions, optimizers, and metrics. Training history. Callback.
 
-- GS151 **[Using Deeplay Models](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS151_models.ipynb)**
+- GS151 **[Using Deeplay Models](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS151_models.ipynb)** <a href="https://colab.research.google.com/github/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS151_models.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg"></a>
 
   Main Deeplay models. Making a model. Weight initialization.
 
-- GS161 **[Using Deeplay Components](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS161_components.ipynb)**
+- GS161 **[Using Deeplay Components](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS161_components.ipynb)** <a href="https://colab.research.google.com/github/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS161_components.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg"></a>
 
   Main Deeplay components.
 
-- GS171 **[Using Deeplay Blocks](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS171_blocks.ipynb)**
+- GS171 **[Using Deeplay Blocks](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS171_blocks.ipynb)** <a href="https://colab.research.google.com/github/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS171_blocks.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg"></a>
 
   Main Deeplay blocks. Adding, ordering, and removing layers. Operations.
 
-- GC181 **[Configuring Deeplay Objects](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS181_configure.ipynb)**
+- GC181 **[Configuring Deeplay Objects](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS181_configure.ipynb)** <a href="https://colab.research.google.com/github/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS181_configure.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg"></a>
 
   `DeeplayModule.configure()` and selectors.
 
-- GC191 **[Using Styles](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS191_styles.ipynb)**
+- GC191 **[Using Styles](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS191_styles.ipynb)** <a href="https://colab.research.google.com/github/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS191_styles.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg"></a>
 
   Styles.
 
 ## Advanced Topics
 
-- AT201 **[Using Mappings as Inputs](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/advanced-topics/AT201_mappings.ipynb)**
+- AT201 **[Using Mappings as Inputs](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/advanced-topics/AT201_mappings.ipynb)** <a href="https://colab.research.google.com/github/DeepTrackAI/deeplay/blob/develop/tutorials/advanced-topics/AT201_mappings.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg"></a>
 
 ## Developer Tutorials
 
 Here you find a series of notebooks tailored for Deeplay's developers:
 
-- DT101 **[Deeplay File Structure](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT101_files.ipynb)**
+- DT101 **[Deeplay File Structure](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT101_files.ipynb)** <a href="https://colab.research.google.com/github/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT101_files.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg"></a>
 
-- DT111 **[Style Guide](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT111_style.ipynb)**
+- DT111 **[Style Guide](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT111_style.ipynb)** <a href="https://colab.research.google.com/github/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT111_style.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg"></a>
 
-- DT121 **[Overview of Deeplay Classes](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT121_overview.ipynb)**
+- DT121 **[Overview of Deeplay Classes](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT121_overview.ipynb)** <a href="https://colab.research.google.com/github/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT121_overview.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg"></a>
 
-- DT131 **[Deeplay Applications](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT131_applications.ipynb)**
+- DT131 **[Deeplay Applications](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT131_applications.ipynb)** <a href="https://colab.research.google.com/github/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT131_applications.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg"></a>
 
-- DT141 **[Deeplay Models](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT141_models.ipynb)**
+- DT141 **[Deeplay Models](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT141_models.ipynb)** <a href="https://colab.research.google.com/github/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT141_models.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg"></a>
 
-- DT151 **[Deeplay Components](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT151_components.ipynb)**
+- DT151 **[Deeplay Components](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT151_components.ipynb)** <a href="https://colab.research.google.com/github/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT151_components.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg"></a>
 
-- DT161 **[Deeplay Operations](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT151_operations.ipynb)**
+- DT161 **[Deeplay Operations](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT151_operations.ipynb)** <a href="https://colab.research.google.com/github/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT151_operations.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg"></a>
 
-- DT171 **[Deeplay Blocks](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT171_vlocks.ipynb)**
+- DT171 **[Deeplay Blocks](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT171_vlocks.ipynb)** <a href="https://colab.research.google.com/github/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT171_vlocks.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg"></a>
 
-- DT181 **[Overview of Deeplay Internal Structure](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT181_internals.ipynb)**
+- DT181 **[Overview of Deeplay Internal Structure](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT181_internals.ipynb)** <a href="https://colab.research.google.com/github/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT181_internals.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg"></a>
