@@ -13,7 +13,7 @@ import torch.nn as nn
 
 
 class LinearBlock(BaseBlock):
-    """Convolutional block with optional normalization and activation."""
+    """Linear block with optional normalization and activation."""
 
     def __init__(
         self,
