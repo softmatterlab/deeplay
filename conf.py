@@ -32,5 +32,8 @@ html_theme_options = {
         "json_url": "https://deeptrackai.github.io/deeplay/latest/_static/switcher.json",
         "version_match": "0.1.1",
     },
-    "navbar_persistent": ["search-button", "version-switcher"],
+    "navbar_end": [
+        "version-switcher",
+        "navbar-icon-links",
+    ],
 }
