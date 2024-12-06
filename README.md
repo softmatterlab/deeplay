@@ -37,7 +37,7 @@ This will automatically install the required dependencies, including PyTorch and
 
 Here you find a series of notebooks that give you an overview of the core features of Deeplay and how to use them:
 
-- GS101 **[Understanding the Core Objects in Deeplay](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS101_core_objects.ipynb)**
+- GS101 **[Understanding the Core Objects in Deeplay](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS101_core_objects.ipynb)** <a href="https://colab.research.google.com/github/DeepTrackAI/deeplay/blob/develop/tutorials/getting-started/GS101_core_objects.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg"></a>
 
   Layers, Blocks, Components, Models, Applications.
 
