@@ -48,8 +48,8 @@
         </script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Selection" href="deeplay.module.Selection.html" />
-    <link rel="prev" title="deeplay.module Module" href="../src/module.html" />
+    <link rel="next" title="DetachedConfigItem" href="deeplay.module.DetachedConfigItem.html" />
+    <link rel="prev" title="ConfigItemList" href="deeplay.module.ConfigItemList.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -324,12 +324,12 @@ document.write(`
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../src/blocks.html">deeplay.blocks Package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="deeplay.blocks.LayerActivationNormalizationDropout.html">LayerActivationNormalizationDropout</a></li>
-<li class="toctree-l2"><a class="reference internal" href="deeplay.blocks.RecurrentBlock.html">RecurrentBlock</a></li>
-<li class="toctree-l2"><a class="reference internal" href="deeplay.blocks.Conv2dResidual.html">Conv2dResidual</a></li>
 <li class="toctree-l2"><a class="reference internal" href="deeplay.blocks.Conv2dBlock.html">Conv2dBlock</a></li>
-<li class="toctree-l2"><a class="reference internal" href="deeplay.blocks.LinearBlock.html">LinearBlock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deeplay.blocks.Conv2dResidual.html">Conv2dResidual</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deeplay.blocks.LayerActivationNormalizationDropout.html">LayerActivationNormalizationDropout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="deeplay.blocks.LayerSkip.html">LayerSkip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deeplay.blocks.LinearBlock.html">LinearBlock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deeplay.blocks.RecurrentBlock.html">RecurrentBlock</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../src/callbacks.html">deeplay.callbacks Package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -424,7 +424,12 @@ document.write(`
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../src/module.html">deeplay.module Module</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="deeplay.module.builder.html">builder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deeplay.module.Config.html">Config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deeplay.module.ConfigItem.html">ConfigItem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deeplay.module.ConfigItemList.html">ConfigItemList</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">DeeplayModule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deeplay.module.DetachedConfigItem.html">DetachedConfigItem</a></li>
 <li class="toctree-l2"><a class="reference internal" href="deeplay.module.Selection.html">Selection</a></li>
 </ul>
 </details></li>
@@ -444,7 +449,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="deeplay.ops.View.html">View</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="../src/schedulers.html">deeplay.schedulers Module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../src/trainer.html">deeplay.trainer Module</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="deeplay.trainer.Trainer.html">Trainer</a></li>
 </ul>
@@ -530,21 +534,49 @@ for enhanced construction logic.</p>
 </dd>
 </dl>
 </section>
+<section id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Link to this heading">#</a></h2>
+<dl class="simple">
+<dt>configure(<a href="#id1"><span class="problematic" id="id2">*</span></a>args: Any, <a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs: Any)</dt><dd><p>Configures the module with given arguments and keyword arguments.</p>
+</dd>
+<dt>create()</dt><dd><p>This method creates and returns a new instance of the module.
+Unlike build, which modifies the module in place, create
+initializes a fresh instance with the current configuration and state,
+ensuring that the original module remains unchanged</p>
+</dd>
+<dt>build()</dt><dd><p>build: “This method modifies the current instance of the module in place.
+It finalizes the setup of the module, applying any necessary configurations
+or adjustments directly to the existing instance.”</p>
+</dd>
+<dt>new()</dt><dd><p>Creates a new instance of the module with collected user configuration.</p>
+</dd>
+<dt>get_user_configuration()</dt><dd><p>Retrieves the current user configuration of the module.</p>
+</dd>
+<dt>get_argspec()</dt><dd><p>Class method to get the argument specification of the module’s initializer.</p>
+</dd>
+<dt>get_signature()</dt><dd><p>Class method to get the signature of the module’s initializer.</p>
+</dd>
+</dl>
+</section>
 <section id="example-usage">
 <h2>Example Usage<a class="headerlink" href="#example-usage" title="Link to this heading">#</a></h2>
 <p>To subclass <cite>DeeplayModule</cite>, define an <cite>__init__</cite> method and other necessary methods:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyModule</span><span class="p">(</span><span class="n">DeeplayModule</span><span class="p">):</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param1</span><span class="p">,</span> <span class="n">param2</span><span class="p">):</span>
-<span class="gp">&gt;&gt;&gt; </span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span>        <span class="c1"># Initialize your module here</span>
-</pre></div>
-</div>
+<p><a href="#id5"><span class="problematic" id="id6">``</span></a>`
+class MyModule(DeeplayModule):</p>
+<blockquote>
+<div><dl class="simple">
+<dt>def __init__(self, param1, param2):</dt><dd><p>super().__init__()
+# Initialize your module here</p>
+</dd>
+</dl>
+</div></blockquote>
+<p><a href="#id7"><span class="problematic" id="id8">``</span></a><a href="#id9"><span class="problematic" id="id10">`</span></a></p>
 <p>To use the module:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">module</span> <span class="o">=</span> <span class="n">MyModule</span><span class="p">(</span><span class="n">param1</span><span class="o">=</span><span class="n">value1</span><span class="p">,</span> <span class="n">param2</span><span class="o">=</span><span class="n">value2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">module</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">param1</span><span class="o">=</span><span class="n">some_value</span><span class="p">,</span> <span class="n">param2</span><span class="o">=</span><span class="n">some_other_value</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">built_module</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
-</pre></div>
-</div>
+<p><code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">module</span> <span class="pre">=</span> <span class="pre">MyModule(param1=value1,</span> <span class="pre">param2=value2)</span>
+<span class="pre">module.configure(param1=some_value,</span> <span class="pre">param2=some_other_value)</span>
+<span class="pre">built_module</span> <span class="pre">=</span> <span class="pre">module.build()</span>
+<span class="pre">`</span></code></p>
 <p class="rubric">Attributes Summary</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
@@ -742,7 +774,7 @@ instances are fully initialized and ready for use.</p>
 <section id="parameters">
 <h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h3>
 <dl class="simple">
-<dt><a href="#id1"><span class="problematic" id="id2">*</span></a>args, <a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs<span class="classifier">Any</span></dt><dd><p>Example input to the forward method used to</p>
+<dt><a href="#id11"><span class="problematic" id="id12">*</span></a>args, <a href="#id13"><span class="problematic" id="id14">**</span></a>kwargs<span class="classifier">Any</span></dt><dd><p>Example input to the forward method used to</p>
 </dd>
 </dl>
 </section>
@@ -753,8 +785,8 @@ instances are fully initialized and ready for use.</p>
 </dd>
 </dl>
 </section>
-<section id="id5">
-<h3>Example Usage<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<section id="id15">
+<h3>Example Usage<a class="headerlink" href="#id15" title="Link to this heading">#</a></h3>
 <p>Finalizing the setup of a module instance with <cite>build</cite>:
 <code class="docutils literal notranslate"><span class="pre">`</span>
 <span class="pre">module</span> <span class="pre">=</span> <span class="pre">ExampleModule(a=0)</span>
@@ -779,8 +811,8 @@ If the first argument is a string, it is assumed to be the name of the computed
 value. If the second argument is not set, the function is used as a decorator.
 If the first argument is a function, it is assumed to be the function to be
 computed, and the name of the function is used as the name of the computed value.</p>
-<section id="id6">
-<h3>Parameters<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<section id="id16">
+<h3>Parameters<a class="headerlink" href="#id16" title="Link to this heading">#</a></h3>
 <dl class="simple">
 <dt>_x<span class="classifier">Union[Callable, str]</span></dt><dd><p>The function to be computed or the name of the computed value.</p>
 </dd>
@@ -811,15 +843,15 @@ computed, and the name of the function is used as the name of the computed value
 used to set or modify the attributes and parameters of the module and, if applicable, its child
 modules. The method intelligently handles both direct attribute configuration and delegation to
 child modules’ <cite>configure</cite> methods.</p>
-<section id="id7">
-<h3>Parameters<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<section id="id17">
+<h3>Parameters<a class="headerlink" href="#id17" title="Link to this heading">#</a></h3>
 <dl class="simple">
-<dt><a href="#id8"><span class="problematic" id="id9">*</span></a>args<span class="classifier">Any</span></dt><dd><p>Positional arguments specifying the configuration settings. When the first argument is a
+<dt><a href="#id18"><span class="problematic" id="id19">*</span></a>args<span class="classifier">Any</span></dt><dd><p>Positional arguments specifying the configuration settings. When the first argument is a
 string matching a configurable attribute, the method expects either one or two arguments:
 the attribute name and, optionally, its value. If the attribute is itself a <cite>DeeplayModule</cite>,
 subsequent arguments are passed to its <cite>configure</cite> method.</p>
 </dd>
-<dt><a href="#id10"><span class="problematic" id="id11">**</span></a>kwargs<span class="classifier">Any</span></dt><dd><p>Keyword arguments for configuration settings. If provided, these are used to update the
+<dt><a href="#id20"><span class="problematic" id="id21">**</span></a>kwargs<span class="classifier">Any</span></dt><dd><p>Keyword arguments for configuration settings. If provided, these are used to update the
 module’s configuration directly.</p>
 </dd>
 </dl>
@@ -832,8 +864,8 @@ if the provided arguments do not match the expected pattern for configuration.</
 </dd>
 </dl>
 </section>
-<section id="id12">
-<h3>Example Usage<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
+<section id="id22">
+<h3>Example Usage<a class="headerlink" href="#id22" title="Link to this heading">#</a></h3>
 <p>To configure a single attribute:
 <code class="docutils literal notranslate"><span class="pre">`</span>
 <span class="pre">module.configure('attribute_name',</span> <span class="pre">attribute_value)</span> <span class="pre">#</span> <span class="pre">or</span>
@@ -864,8 +896,8 @@ etc.) are instantiated during the build process. For these subclasses,
 <cite>create</cite> not only configures but also instantiates the specified torch
 layers. For most other objects, the <cite>.build()</cite> step, which is internally
 called in <cite>create</cite>, has no additional effect beyond configuration.</p>
-<section id="id13">
-<h3>Returns<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
+<section id="id23">
+<h3>Returns<a class="headerlink" href="#id23" title="Link to this heading">#</a></h3>
 <dl class="simple">
 <dt>DeeplayModule</dt><dd><p>A new instance of the <cite>DeeplayModule</cite> (or its subclass), initialized
 with the current module’s configuration and, for <cite>dl.External</cite> subclasses,
@@ -873,8 +905,8 @@ with instantiated torch layers.</p>
 </dd>
 </dl>
 </section>
-<section id="id14">
-<h3>Example Usage<a class="headerlink" href="#id14" title="Link to this heading">#</a></h3>
+<section id="id24">
+<h3>Example Usage<a class="headerlink" href="#id24" title="Link to this heading">#</a></h3>
 <p>Creating a <cite>dl.Layer</cite> instance and then fully initializing it with <cite>create</cite>:
 <code class="docutils literal notranslate"><span class="pre">`</span>
 <span class="pre">layer</span> <span class="pre">=</span> <span class="pre">dl.Layer(nn.Linear,</span> <span class="pre">in_features=20,</span> <span class="pre">out_features=40)</span>
@@ -932,16 +964,16 @@ registered hooks while the latter silently ignores them.</p>
 for this module. It is useful for inspecting the current state of module configuration,
 especially after multiple configurations have been applied or when the module’s configuration
 needs to be examined or debugged.</p>
-<section id="id15">
-<h3>Returns<a class="headerlink" href="#id15" title="Link to this heading">#</a></h3>
+<section id="id25">
+<h3>Returns<a class="headerlink" href="#id25" title="Link to this heading">#</a></h3>
 <dl class="simple">
 <dt>dict</dt><dd><p>A dictionary containing the current user configuration settings. The keys are tuples
 representing the configuration attributes, and the values are the corresponding settings.</p>
 </dd>
 </dl>
 </section>
-<section id="id16">
-<h3>Example Usage<a class="headerlink" href="#id16" title="Link to this heading">#</a></h3>
+<section id="id26">
+<h3>Example Usage<a class="headerlink" href="#id26" title="Link to this heading">#</a></h3>
 <p>To retrieve the current configuration of a module:
 <code class="docutils literal notranslate"><span class="pre">`</span>
 <span class="pre">module</span> <span class="pre">=</span> <span class="pre">ExampleModule(a=0)</span>
@@ -979,8 +1011,8 @@ representing the configuration attributes, and the values are the corresponding 
 <p>Allows for storing tensors in the root module’s logs. Can be used in
 inference to make tensors globally available outside the direct
 forward pass.</p>
-<section id="id17">
-<h3>Parameters<a class="headerlink" href="#id17" title="Link to this heading">#</a></h3>
+<section id="id27">
+<h3>Parameters<a class="headerlink" href="#id27" title="Link to this heading">#</a></h3>
 <dl class="simple">
 <dt>name<span class="classifier">str</span></dt><dd><p>The name of the tensor to store.</p>
 </dd>
@@ -992,7 +1024,7 @@ forward pass.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="deeplay.module.DeeplayModule.new">
-<span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detach</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#deeplay.module.DeeplayModule" title="deeplay.module.DeeplayModule"><span class="pre">DeeplayModule</span></a></span></span><a class="headerlink" href="#deeplay.module.DeeplayModule.new" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detach</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#deeplay.module.DeeplayModule.new" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1002,13 +1034,13 @@ forward pass.</p>
 <p>This method is a wrapper around the <cite>forward</cite> method, which is used to predict the output of the module
 for the given input. It is particularly useful for making predictions on large datasets, as it allows
 for the specification of a batch size for processing the input data.</p>
-<section id="id18">
-<h3>Parameters<a class="headerlink" href="#id18" title="Link to this heading">#</a></h3>
+<section id="id28">
+<h3>Parameters<a class="headerlink" href="#id28" title="Link to this heading">#</a></h3>
 <dl class="simple">
 <dt>x<span class="classifier">array-like</span></dt><dd><p>The input data for which to predict the output. Should be an array-like object with the same length
 as the input data.</p>
 </dd>
-<dt><a href="#id19"><span class="problematic" id="id20">*</span></a>args<span class="classifier">Any</span></dt><dd><p>Positional arguments for the input data. Should have the same length as the input data.</p>
+<dt><a href="#id29"><span class="problematic" id="id30">*</span></a>args<span class="classifier">Any</span></dt><dd><p>Positional arguments for the input data. Should have the same length as the input data.</p>
 </dd>
 <dt>batch_size<span class="classifier">int, optional</span></dt><dd><p>The batch size for processing the input data. Defaults to 32.</p>
 </dd>
@@ -1020,15 +1052,15 @@ Defaults to None.</p>
 </dd>
 </dl>
 </section>
-<section id="id21">
-<h3>Returns<a class="headerlink" href="#id21" title="Link to this heading">#</a></h3>
+<section id="id31">
+<h3>Returns<a class="headerlink" href="#id31" title="Link to this heading">#</a></h3>
 <dl class="simple">
 <dt>Any</dt><dd><p>The output of the module for the given input data.</p>
 </dd>
 </dl>
 </section>
-<section id="id22">
-<h3>Example Usage<a class="headerlink" href="#id22" title="Link to this heading">#</a></h3>
+<section id="id32">
+<h3>Example Usage<a class="headerlink" href="#id32" title="Link to this heading">#</a></h3>
 <p>To predict the output of a module for the given input data:
 <code class="docutils literal notranslate"><span class="pre">`</span>
 <span class="pre">module</span> <span class="pre">=</span> <span class="pre">ExampleModule()</span>
@@ -1041,8 +1073,8 @@ Defaults to None.</p>
 <dt class="sig sig-object py" id="deeplay.module.DeeplayModule.register_after_build_hook">
 <span class="sig-name descname"><span class="pre">register_after_build_hook</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#deeplay.module.DeeplayModule.register_after_build_hook" title="Link to this definition">#</a></dt>
 <dd><p>Registers a function to be called after the module is built.</p>
-<section id="id23">
-<h3>Parameters<a class="headerlink" href="#id23" title="Link to this heading">#</a></h3>
+<section id="id33">
+<h3>Parameters<a class="headerlink" href="#id33" title="Link to this heading">#</a></h3>
 <dl class="simple">
 <dt>func<span class="classifier">Callable</span></dt><dd><p>The function to be called after the module is built. The function should take
 a single argument, which is the module instance.</p>
@@ -1055,8 +1087,8 @@ a single argument, which is the module instance.</p>
 <dt class="sig sig-object py" id="deeplay.module.DeeplayModule.register_after_init_hook">
 <span class="sig-name descname"><span class="pre">register_after_init_hook</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#deeplay.module.DeeplayModule.register_after_init_hook" title="Link to this definition">#</a></dt>
 <dd><p>Registers a function to be called after the module is initialized.</p>
-<section id="id24">
-<h3>Parameters<a class="headerlink" href="#id24" title="Link to this heading">#</a></h3>
+<section id="id34">
+<h3>Parameters<a class="headerlink" href="#id34" title="Link to this heading">#</a></h3>
 <dl class="simple">
 <dt>func<span class="classifier">Callable</span></dt><dd><p>The function to be called after the module is initialized. The function should take
 a single argument, which is the module instance.</p>
@@ -1069,8 +1101,8 @@ a single argument, which is the module instance.</p>
 <dt class="sig sig-object py" id="deeplay.module.DeeplayModule.register_before_build_hook">
 <span class="sig-name descname"><span class="pre">register_before_build_hook</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#deeplay.module.DeeplayModule.register_before_build_hook" title="Link to this definition">#</a></dt>
 <dd><p>Registers a function to be called before the module is built.</p>
-<section id="id25">
-<h3>Parameters<a class="headerlink" href="#id25" title="Link to this heading">#</a></h3>
+<section id="id35">
+<h3>Parameters<a class="headerlink" href="#id35" title="Link to this heading">#</a></h3>
 <dl class="simple">
 <dt>func<span class="classifier">Callable</span></dt><dd><p>The function to be called before the module is built. The function should take
 a single argument, which is the module instance.</p>
@@ -1091,8 +1123,8 @@ a single argument, which is the module instance.</p>
 <p>This method replaces the child module with the given name with the specified replacement module.
 It is useful for dynamically swapping out modules within a larger module or for replacing
 modules within a module that has already been built.</p>
-<section id="id26">
-<h3>Parameters<a class="headerlink" href="#id26" title="Link to this heading">#</a></h3>
+<section id="id36">
+<h3>Parameters<a class="headerlink" href="#id36" title="Link to this heading">#</a></h3>
 <dl class="simple">
 <dt>target<span class="classifier">str</span></dt><dd><p>The name of the child module to be replaced.</p>
 </dd>
@@ -1100,15 +1132,15 @@ modules within a module that has already been built.</p>
 </dd>
 </dl>
 </section>
-<section id="id27">
-<h3>Raises<a class="headerlink" href="#id27" title="Link to this heading">#</a></h3>
+<section id="id37">
+<h3>Raises<a class="headerlink" href="#id37" title="Link to this heading">#</a></h3>
 <dl class="simple">
 <dt>ValueError</dt><dd><p>Raised if the target module is not found among the module’s children.</p>
 </dd>
 </dl>
 </section>
-<section id="id28">
-<h3>Example Usage<a class="headerlink" href="#id28" title="Link to this heading">#</a></h3>
+<section id="id38">
+<h3>Example Usage<a class="headerlink" href="#id38" title="Link to this heading">#</a></h3>
 <p>To replace a child module with another module:
 <code class="docutils literal notranslate"><span class="pre">`</span>
 <span class="pre">module</span> <span class="pre">=</span> <span class="pre">ExampleModule()</span>
@@ -1158,20 +1190,20 @@ modules within a module that has already been built.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../src/module.html"
+       href="deeplay.module.ConfigItemList.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">deeplay.module Module</p>
+        <p class="prev-next-title">ConfigItemList</p>
       </div>
     </a>
     <a class="right-next"
-       href="deeplay.module.Selection.html"
+       href="deeplay.module.DetachedConfigItem.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Selection</p>
+        <p class="prev-next-title">DetachedConfigItem</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

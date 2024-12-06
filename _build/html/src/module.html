@@ -48,7 +48,7 @@
         </script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="DeeplayModule" href="../api/deeplay.module.DeeplayModule.html" />
+    <link rel="next" title="builder" href="../api/deeplay.module.builder.html" />
     <link rel="prev" title="XLargeMLP" href="../api/deeplay.models.XLargeMLP.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -324,12 +324,12 @@ document.write(`
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="blocks.html">deeplay.blocks Package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.blocks.LayerActivationNormalizationDropout.html">LayerActivationNormalizationDropout</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.blocks.RecurrentBlock.html">RecurrentBlock</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.blocks.Conv2dResidual.html">Conv2dResidual</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/deeplay.blocks.Conv2dBlock.html">Conv2dBlock</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.blocks.LinearBlock.html">LinearBlock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.blocks.Conv2dResidual.html">Conv2dResidual</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.blocks.LayerActivationNormalizationDropout.html">LayerActivationNormalizationDropout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/deeplay.blocks.LayerSkip.html">LayerSkip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.blocks.LinearBlock.html">LinearBlock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.blocks.RecurrentBlock.html">RecurrentBlock</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="callbacks.html">deeplay.callbacks Package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -424,7 +424,12 @@ document.write(`
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">deeplay.module Module</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.module.builder.html">builder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.module.Config.html">Config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.module.ConfigItem.html">ConfigItem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.module.ConfigItemList.html">ConfigItemList</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/deeplay.module.DeeplayModule.html">DeeplayModule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.module.DetachedConfigItem.html">DetachedConfigItem</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/deeplay.module.Selection.html">Selection</a></li>
 </ul>
 </details></li>
@@ -444,7 +449,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../api/deeplay.ops.View.html">View</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="schedulers.html">deeplay.schedulers Module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="trainer.html">deeplay.trainer Module</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/deeplay.trainer.Trainer.html">Trainer</a></li>
 </ul>
@@ -508,15 +512,62 @@ document.write(`
                   
   <section id="module-deeplay.module">
 <span id="deeplay-module-module"></span><h1>deeplay.module Module<a class="headerlink" href="#module-deeplay.module" title="Link to this heading">#</a></h1>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">after_build</span></code>(func)</p></td>
+<td><p>Decorator for methods that will be run after build instead of immediately.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">after_init</span></code>(func)</p></td>
+<td><p>Decorator for methods that will be run after init _and_ immediately.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/deeplay.module.builder.html#deeplay.module.builder" title="deeplay.module.builder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">builder</span></code></a>(cls, args, kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">not_top_level</span></code>(cls, obj)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">stateful</span></code>(func)</p></td>
+<td><p>Decorator for methods modify the object state.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">warn</span></code>(message[, category, stacklevel, source])</p></td>
+<td><p>Issue a warning, or maybe ignore it or raise an exception.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
 <section id="classes">
 <h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">#</a></h2>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/deeplay.module.Config.html#deeplay.module.Config" title="deeplay.module.Config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Config</span></code></a>(*args, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/deeplay.module.ConfigItem.html#deeplay.module.ConfigItem" title="deeplay.module.ConfigItem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ConfigItem</span></code></a>(source, value)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/deeplay.module.ConfigItemList.html#deeplay.module.ConfigItemList" title="deeplay.module.ConfigItemList"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ConfigItemList</span></code></a>([iterable])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Data</span></code>([x, edge_index, edge_attr, y, pos, time])</p></td>
+<td><p>A data object describing a homogeneous graph. The data object can hold node-level, link-level and graph-level attributes. In general, <code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code> tries to mimic the behavior of a regular <a href="#id1"><span class="problematic" id="id2">:python:`Python`</span></a> dictionary. In addition, it provides useful functionality for analyzing graph structures, and provides basic PyTorch tensor functionalities. See <a class="reference external" href="https://pytorch-geometric.readthedocs.io/en/latest/get_started/introduction.html#data-handling-of-graphs">here</a> for the accompanying tutorial.</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="../api/deeplay.module.DeeplayModule.html#deeplay.module.DeeplayModule" title="deeplay.module.DeeplayModule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DeeplayModule</span></code></a>(*args, **kwargs)</p></td>
 <td><p>A base class for creating configurable, extensible modules with dynamic initialization and argument management.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/deeplay.module.DetachedConfigItem.html#deeplay.module.DetachedConfigItem" title="deeplay.module.DetachedConfigItem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DetachedConfigItem</span></code></a>(source, value)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExtendedConstructorMeta</span></code>(name, bases, attrs)</p></td>
+<td><p></p></td>
+</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="../api/deeplay.module.Selection.html#deeplay.module.Selection" title="deeplay.module.Selection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Selection</span></code></a>(*args, **kwargs)</p></td>
 <td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">partial</span></code></p></td>
+<td><p>partial(func, <a href="#id3"><span class="problematic" id="id4">*</span></a>args, <a href="#id5"><span class="problematic" id="id6">**</span></a>keywords) - new function with partial application of the given arguments and keywords.</p></td>
 </tr>
 </tbody>
 </table>
@@ -544,11 +595,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="../api/deeplay.module.DeeplayModule.html"
+       href="../api/deeplay.module.builder.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">DeeplayModule</p>
+        <p class="prev-next-title">builder</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -570,6 +621,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
 </ul>
   </nav></div>

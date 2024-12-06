@@ -48,7 +48,7 @@
         </script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="LayerActivationNormalizationDropout" href="../api/deeplay.blocks.LayerActivationNormalizationDropout.html" />
+    <link rel="next" title="Conv2dBlock" href="../api/deeplay.blocks.Conv2dBlock.html" />
     <link rel="prev" title="WassersteinAutoEncoder" href="../api/deeplay.applications.WassersteinAutoEncoder.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -324,12 +324,12 @@ document.write(`
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">deeplay.blocks Package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.blocks.LayerActivationNormalizationDropout.html">LayerActivationNormalizationDropout</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.blocks.RecurrentBlock.html">RecurrentBlock</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.blocks.Conv2dResidual.html">Conv2dResidual</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/deeplay.blocks.Conv2dBlock.html">Conv2dBlock</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.blocks.LinearBlock.html">LinearBlock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.blocks.Conv2dResidual.html">Conv2dResidual</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.blocks.LayerActivationNormalizationDropout.html">LayerActivationNormalizationDropout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/deeplay.blocks.LayerSkip.html">LayerSkip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.blocks.LinearBlock.html">LinearBlock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.blocks.RecurrentBlock.html">RecurrentBlock</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="callbacks.html">deeplay.callbacks Package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -424,7 +424,12 @@ document.write(`
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="module.html">deeplay.module Module</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.module.builder.html">builder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.module.Config.html">Config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.module.ConfigItem.html">ConfigItem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.module.ConfigItemList.html">ConfigItemList</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/deeplay.module.DeeplayModule.html">DeeplayModule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.module.DetachedConfigItem.html">DetachedConfigItem</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/deeplay.module.Selection.html">Selection</a></li>
 </ul>
 </details></li>
@@ -444,7 +449,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../api/deeplay.ops.View.html">View</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="schedulers.html">deeplay.schedulers Module</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="trainer.html">deeplay.trainer Module</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/deeplay.trainer.Trainer.html">Trainer</a></li>
 </ul>
@@ -512,22 +516,22 @@ document.write(`
 <h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">#</a></h2>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api/deeplay.blocks.Conv2dBlock.html#deeplay.blocks.Conv2dBlock" title="deeplay.blocks.Conv2dBlock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Conv2dBlock</span></code></a>(*args, **kwargs)</p></td>
+<td><p>Convolutional block with optional normalization and activation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/deeplay.blocks.Conv2dResidual.html#deeplay.blocks.Conv2dResidual" title="deeplay.blocks.Conv2dResidual"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Conv2dResidual</span></code></a>(*args, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="../api/deeplay.blocks.LayerActivationNormalizationDropout.html#deeplay.blocks.LayerActivationNormalizationDropout" title="deeplay.blocks.LayerActivationNormalizationDropout"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LayerActivationNormalizationDropout</span></code></a>(*args, ...)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../api/deeplay.blocks.RecurrentBlock.html#deeplay.blocks.RecurrentBlock" title="deeplay.blocks.RecurrentBlock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RecurrentBlock</span></code></a>(*args, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/deeplay.blocks.LayerSkip.html#deeplay.blocks.LayerSkip" title="deeplay.blocks.LayerSkip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LayerSkip</span></code></a>(*args, **kwargs)</p></td>
 <td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../api/deeplay.blocks.Conv2dResidual.html#deeplay.blocks.Conv2dResidual" title="deeplay.blocks.Conv2dResidual"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Conv2dResidual</span></code></a>(*args, **kwargs)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../api/deeplay.blocks.Conv2dBlock.html#deeplay.blocks.Conv2dBlock" title="deeplay.blocks.Conv2dBlock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Conv2dBlock</span></code></a>(*args, **kwargs)</p></td>
-<td><p>Convolutional block with optional normalization and activation.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="../api/deeplay.blocks.LinearBlock.html#deeplay.blocks.LinearBlock" title="deeplay.blocks.LinearBlock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LinearBlock</span></code></a>(*args, **kwargs)</p></td>
-<td><p>Linear block with optional normalization and activation.</p></td>
+<td><p>Convolutional block with optional normalization and activation.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../api/deeplay.blocks.LayerSkip.html#deeplay.blocks.LayerSkip" title="deeplay.blocks.LayerSkip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LayerSkip</span></code></a>(*args, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../api/deeplay.blocks.RecurrentBlock.html#deeplay.blocks.RecurrentBlock" title="deeplay.blocks.RecurrentBlock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RecurrentBlock</span></code></a>(*args, **kwargs)</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -556,11 +560,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="../api/deeplay.blocks.LayerActivationNormalizationDropout.html"
+       href="../api/deeplay.blocks.Conv2dBlock.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">LayerActivationNormalizationDropout</p>
+        <p class="prev-next-title">Conv2dBlock</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

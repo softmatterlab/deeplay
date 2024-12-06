@@ -1,3 +1,7 @@
+import sys
+
+sys.path.insert(0, "release-code")
+
 # Configuration file for the Sphinx documentation builder.
 #
 # For the full list of built-in configuration values, see the documentation:
