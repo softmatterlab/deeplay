@@ -1,0 +1,17 @@
+Regressor
+=========
+
+.. currentmodule:: deeplay
+
+.. autoclass:: Regressor
+   :show-inheritance:
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~Regressor.forward
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: forward
