@@ -40,10 +40,16 @@
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'src/blocks';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://deeptrackay.github.io/deeplay/latest/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '0.1.1';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="LayerActivationNormalizationDropout" href="../api/deeplay.blocks.LayerActivationNormalizationDropout.html" />
-    <link rel="prev" title="deeplay.applications Package" href="applications.html" />
+    <link rel="prev" title="WassersteinAutoEncoder" href="../api/deeplay.applications.WassersteinAutoEncoder.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -150,15 +156,39 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script>
         </div>
       
       
@@ -181,15 +211,38 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script>
     </div>
   
 
@@ -281,7 +334,18 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../api/deeplay.activelearning.UniformStrategy.html">UniformStrategy</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="applications.html">deeplay.applications Package</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="applications.html">deeplay.applications Package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.applications.Application.html">Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.applications.BinaryClassifier.html">BinaryClassifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.applications.CategoricalClassifier.html">CategoricalClassifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.applications.Classifier.html">Classifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.applications.LodeSTAR.html">LodeSTAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.applications.MultiLabelClassifier.html">MultiLabelClassifier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.applications.Regressor.html">Regressor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.applications.VariationalAutoEncoder.html">VariationalAutoEncoder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.applications.WassersteinAutoEncoder.html">WassersteinAutoEncoder</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">deeplay.blocks Package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/deeplay.blocks.LayerActivationNormalizationDropout.html">LayerActivationNormalizationDropout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/deeplay.blocks.RecurrentBlock.html">RecurrentBlock</a></li>
@@ -291,21 +355,123 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../api/deeplay.blocks.LayerSkip.html">LayerSkip</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="callbacks.html">deeplay.callbacks Package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="components.html">deeplay.components Package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="decorators.html">deeplay.decorators Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="external.html">deeplay.external Package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="initializers.html">deeplay.initializers Package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="list.html">deeplay.list Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="models.html">deeplay.models Package</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="callbacks.html">deeplay.callbacks Package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.callbacks.LogHistory.html">LogHistory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.callbacks.RichProgressBar.html">RichProgressBar</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="components.html">deeplay.components Package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.Add.html">Add</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.AddDict.html">AddDict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.AttentionUNet.html">AttentionUNet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.CombineLayerActivation.html">CombineLayerActivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.ConvolutionalDecoder2d.html">ConvolutionalDecoder2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.ConvolutionalEncoder2d.html">ConvolutionalEncoder2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.ConvolutionalEncoderDecoder2d.html">ConvolutionalEncoderDecoder2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.ConvolutionalNeuralNetwork.html">ConvolutionalNeuralNetwork</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.FromDict.html">FromDict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.GraphConvolutionalNeuralNetwork.html">GraphConvolutionalNeuralNetwork</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.IndexedPositionalEmbedding.html">IndexedPositionalEmbedding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.LayerDropoutSkipNormalization.html">LayerDropoutSkipNormalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.LearnableDistancewWeighting.html">LearnableDistancewWeighting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.Max.html">Max</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.Mean.html">Mean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.MessagePassingNeuralNetwork.html">MessagePassingNeuralNetwork</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.Min.html">Min</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.MultiLayerPerceptron.html">MultiLayerPerceptron</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.MultiheadSelfAttention.html">MultiheadSelfAttention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.PositionalEmbedding.html">PositionalEmbedding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.Prod.html">Prod</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.RecurrentNeuralNetwork.html">RecurrentNeuralNetwork</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.ResidualMessagePassingNeuralNetwork.html">ResidualMessagePassingNeuralNetwork</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.Sum.html">Sum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.Transform.html">Transform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.TransformPropagateUpdate.html">TransformPropagateUpdate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.TransformerEncoderLayer.html">TransformerEncoderLayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.UNet2d.html">UNet2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.Update.html">Update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.WeightedSum.html">WeightedSum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.dense_laplacian_normalization.html">dense_laplacian_normalization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.components.sparse_laplacian_normalization.html">sparse_laplacian_normalization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="decorators.html">deeplay.decorators Module</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.decorators.after_build.html">after_build</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.decorators.after_init.html">after_init</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.decorators.before_build.html">before_build</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.decorators.stateful.html">stateful</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.decorators.Callback.html">Callback</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="external.html">deeplay.external Package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.external.Adam.html">Adam</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.external.AdamW.html">AdamW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.external.External.html">External</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.external.Layer.html">Layer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.external.Optimizer.html">Optimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.external.RMSprop.html">RMSprop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.external.SGD.html">SGD</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="initializers.html">deeplay.initializers Package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.initializers.Constant.html">Constant</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.initializers.Kaiming.html">Kaiming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.initializers.Normal.html">Normal</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="list.html">deeplay.list Module</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.list.LayerList.html">LayerList</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.list.Parallel.html">Parallel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.list.ReferringLayerList.html">ReferringLayerList</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.list.Sequential.html">Sequential</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="models.html">deeplay.models Package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.models.BackboneResnet18.html">BackboneResnet18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.models.CycleGANDiscriminator.html">CycleGANDiscriminator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.models.CycleGANResnetGenerator.html">CycleGANResnetGenerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.models.DCGANDiscriminator.html">DCGANDiscriminator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.models.DCGANGenerator.html">DCGANGenerator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.models.GlobalMeanPool.html">GlobalMeanPool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.models.GraphToEdgeMAGIK.html">GraphToEdgeMAGIK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.models.GraphToEdgeMPM.html">GraphToEdgeMPM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.models.GraphToGlobalMPM.html">GraphToGlobalMPM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.models.GraphToNodeMPM.html">GraphToNodeMPM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.models.LargeMLP.html">LargeMLP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.models.MPM.html">MPM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.models.MediumMLP.html">MediumMLP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.models.RecurrentModel.html">RecurrentModel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.models.SmallMLP.html">SmallMLP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.models.ViT.html">ViT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.models.XLargeMLP.html">XLargeMLP</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="module.html">deeplay.module Module</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/deeplay.module.DeeplayModule.html">DeeplayModule</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/deeplay.module.Selection.html">Selection</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="ops.html">deeplay.ops Package</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="ops.html">deeplay.ops Package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.ops.Add.html">Add</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.ops.Cat.html">Cat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.ops.Flatten.html">Flatten</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.ops.FromLogs.html">FromLogs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.ops.Lambda.html">Lambda</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.ops.MergeOp.html">MergeOp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.ops.MultiheadCrossAttention.html">MultiheadCrossAttention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.ops.MultiheadSelfAttention.html">MultiheadSelfAttention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.ops.Permute.html">Permute</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.ops.Reshape.html">Reshape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.ops.Squeeze.html">Squeeze</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.ops.Unsqueeze.html">Unsqueeze</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.ops.View.html">View</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1"><a class="reference internal" href="schedulers.html">deeplay.schedulers Module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="trainer.html">deeplay.trainer Module</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="trainer.html">deeplay.trainer Module</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/deeplay.trainer.Trainer.html">Trainer</a></li>
+</ul>
+</details></li>
 </ul>
 </div>
 </nav></div>
@@ -382,7 +548,7 @@ document.write(`
 <td><p>Convolutional block with optional normalization and activation.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="../api/deeplay.blocks.LinearBlock.html#deeplay.blocks.LinearBlock" title="deeplay.blocks.LinearBlock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LinearBlock</span></code></a>(*args, **kwargs)</p></td>
-<td><p>Convolutional block with optional normalization and activation.</p></td>
+<td><p>Linear block with optional normalization and activation.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="../api/deeplay.blocks.LayerSkip.html#deeplay.blocks.LayerSkip" title="deeplay.blocks.LayerSkip"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LayerSkip</span></code></a>(*args, **kwargs)</p></td>
 <td><p></p></td>
@@ -404,12 +570,12 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="applications.html"
+       href="../api/deeplay.applications.WassersteinAutoEncoder.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">deeplay.applications Package</p>
+        <p class="prev-next-title">WassersteinAutoEncoder</p>
       </div>
     </a>
     <a class="right-next"

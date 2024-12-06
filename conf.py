@@ -27,6 +27,10 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 html_theme = "pydata_sphinx_theme"
 html_static_path = ["static"]
-# switcher = {
-#     "json_url": "https://deeptrackay.github.io/deeplay/latest/_static/switcher.json"
-# }
+html_theme_options = {
+    "switcher": {
+        "json_url": "https://deeptrackay.github.io/deeplay/latest/_static/switcher.json",
+        "version_match": "0.1.1",
+    },
+    "navbar_persistent": ["search-button", "version-switcher"],
+}
