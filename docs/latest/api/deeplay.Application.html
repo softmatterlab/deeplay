@@ -583,7 +583,7 @@ attempt to infer the correct permutation based on the input and target shapes.</
 </div>
 <p>The default behavior per hook is documented here: <span class="xref std std-ref">extensions/logging:Automatic Logging</span>.</p>
 <dl>
-<dt>Args:</dt><dd><p>name: key to log.
+<dt>Args:</dt><dd><p>name: key to log. Must be identical across all processes if using DDP or any other distributed strategy.
 value: value to log. Can be a <code class="docutils literal notranslate"><span class="pre">float</span></code>, <code class="docutils literal notranslate"><span class="pre">Tensor</span></code>, or a <code class="docutils literal notranslate"><span class="pre">Metric</span></code>.
 prog_bar: if <code class="docutils literal notranslate"><span class="pre">True</span></code> logs to the progress bar.
 logger: if <code class="docutils literal notranslate"><span class="pre">True</span></code> logs to the logger.
