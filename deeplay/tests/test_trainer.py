@@ -7,7 +7,11 @@ import torch.nn as nn
 import lightning as L
 import torch
 
+from unittest.mock import patch
+import torch
 
+
+@patch("torch.backends.mps.is_available", return_value=False)
 class TestTrainer(unittest.TestCase):
     def test_trainer(self):
         trainer = Trainer(callbacks=[LogHistory()])
