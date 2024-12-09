@@ -20,9 +20,3 @@ class TestMyModule(unittest.TestCase):
 
     def test_feature_one(self):
         self.assertFalse(torch.backends.mps.is_available())
-
-
-class TestAnotherModule(unittest.TestCase):
-
-    def test_feature_two(self):
-        self.assertFalse(torch.backends.mps.is_available())
