@@ -11,9 +11,14 @@ import torch
 
 
 class BaseApplicationTest:
-
-    @patch("torch.backends.mps.is_available", return_value=False)
     class BaseTest(unittest.TestCase):
+
+        def setUp(self):
+            self._patcher = patch("torch.backends.mps.is_available", return_value=False)
+            self._mock = self._patcher.start()
+
+        def tearDown(self):
+            self._patcher.stop()
 
         def get_class(self) -> Type[Application]:
             raise NotImplementedError
