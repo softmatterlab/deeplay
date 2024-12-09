@@ -6,10 +6,14 @@ import torch
 from deeplay.applications.application import Application
 from deeplay.external.optimizers.adam import Adam
 from deeplay.trainer import Trainer
-
+    from unittest.mock import patch
+import torch
 
 class BaseApplicationTest:
 
+
+
+    @patch('torch.backends.mps.is_available', return_value=False)
     class BaseTest(unittest.TestCase):
 
         def get_class(self) -> Type[Application]:
