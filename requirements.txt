@@ -1,5 +1,6 @@
 numpy
 matplotlib
+torch>2.3
 lightning
 torchmetrics
 torchvision
