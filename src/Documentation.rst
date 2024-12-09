@@ -21,5 +21,4 @@ The documentation is organized into the following sections:
    models
    module
    ops
-   schedulers
    trainer
