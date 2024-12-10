@@ -1,3 +1,4 @@
+python>=3.8
 numpy
 matplotlib
 torch>2.3
