@@ -1,4 +1,5 @@
-numpy
+python>3.8
+numpy>2
 matplotlib
 torch>2.3
 lightning
