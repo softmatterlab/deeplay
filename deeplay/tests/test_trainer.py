@@ -1,14 +1,12 @@
-from deeplay.trainer import Trainer
+from deeplay import DataLoader, Regressor
 from deeplay.callbacks import LogHistory, RichProgressBar
-from deeplay import Regressor, DataLoader
-from lightning.pytorch.callbacks.progress.tqdm_progress import TQDMProgressBar
-import unittest
-import torch.nn as nn
+from deeplay.trainer import Trainer
 import lightning as L
+from lightning.pytorch.callbacks.progress.tqdm_progress import TQDMProgressBar
 import torch
-
+import torch.nn as nn
+import unittest
 from unittest.mock import patch
-import torch
 
 
 class TestTrainer(unittest.TestCase):
