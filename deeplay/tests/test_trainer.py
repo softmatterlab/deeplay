@@ -7,8 +7,19 @@ import torch.nn as nn
 import lightning as L
 import torch
 
+from unittest.mock import patch
+import torch
+
 
 class TestTrainer(unittest.TestCase):
+
+    def setUp(self):
+        self._patcher = patch("torch.backends.mps.is_available", return_value=False)
+        self._mock = self._patcher.start()
+
+    def tearDown(self):
+        self._patcher.stop()
+
     def test_trainer(self):
         trainer = Trainer(callbacks=[LogHistory()])
         self.assertIsInstance(trainer, Trainer)
