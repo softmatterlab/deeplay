@@ -1,8 +1,7 @@
-
 Documentation
 =============
 
-Here, you will find the documentation for the Deeplay library. 
+Here, you will find the documentation for deeplay.
 The documentation is organized into the following sections:
 
 .. toctree::
@@ -13,12 +12,10 @@ The documentation is organized into the following sections:
    applications
    blocks
    callbacks
-   components 
-   decorators
+   components
    external
    initializers
-   list
    models
-   module
    ops
-   trainer
+   tests
+
