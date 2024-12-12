@@ -1,4 +1,3 @@
-````markdown
 # Documentation Setup and Automation Guide
 
 This guide explains how to set up and maintain documentation for your Python library in a dedicated `docs` branch with GitHub Pages. It also details how all the steps, once configured, are automated via a GitHub Actions workflow that updates and builds documentation upon new releases.
