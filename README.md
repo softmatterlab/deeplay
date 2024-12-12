@@ -31,7 +31,6 @@ You no longer need to manually create the `src` folder and populate `.rst` files
 ```bash
 pip install sphinx sphinx-automodapi pydata-sphinx-theme
 ```
-````
 
 **Run `sphinx-quickstart`:**
 
