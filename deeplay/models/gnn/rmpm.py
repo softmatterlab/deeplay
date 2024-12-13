@@ -1,3 +1,10 @@
+"""Recurrent Message Passing Neural Network (RMPN) Model
+
+This module defines the `RecurrentMessagePassingModel`, a ,neural network for
+recurrent graph-based computations. It processes graph data iteratively using
+message-passing mechanisms combined with recurrent structures.
+"""
+
 from typing import Type, Union
 
 from deeplay import (
@@ -16,58 +23,73 @@ import torch.nn as nn
 class RecurrentMessagePassingModel(DeeplayModule):
     """Recurrent Message Passing Neural Network (RMPN) model.
 
+    RMPN processes graph data iteratively through a combination of an encoder
+    and a recurrent message passing layer. The encoder transforms input node
+    and edge features into a common hidden representation. The recurrent
+    message passing layer updates hidden node and edge representations by
+    concatenating them with the input features and processing them through a
+    message-passing neural network. Outputs for each iteration are collected
+    in a list and returned as the model's final output.
+
     Parameters
     ----------
-    hidden_features: int
+    hidden_features : int
         Number of hidden units in the recurrent message passing layer.
-    out_features: int
+    out_features : int
         Number of output features.
-    num_iter: int
+    num_iter : int
         Number of iterations of the recurrent message passing layer.
-    out_activation: template-like
-        Specification for the output activation of the model. Default: nn.Identity.
+    out_activation : template-like, optional
+        Activation function applied to the output. Default is `nn.Identity`.
 
+    Raises
+    ------
+    ValueError
+        If `out_features` or `hidden_features` are non-positive.
 
     Configurables
     -------------
-    - hidden_features (int): Number of hidden units in the recurrent message passing layer.
+    - hidden_features (int): Number of hidden units in the recurrent message
+      passing layer.
     - out_features (int): Number of output features.
-    - out_activation (template-like): Specification for the output activation of the model. Default: nn.Identity.
-    - encoder (template-like): Specification for the encoder of the model. Default: dl.Parallel consisting of two MLPs to process node and edge features.
-    - backbone (template-like): Specification for the backbone of the model. Default: dl.RecurrentGraphBlock consisting of dl.MessagePassingNeuralNetwork and a MLP head.
+    - out_activation (template-like): Specification for the output activation
+      of the model. Default: nn.Identity.
+    - encoder (template-like): Specification for the encoder of the model.
+      Default: dl.Parallel consisting of two MLPs to process node and edge features.
+    - backbone (template-like): Specification for the backbone of the model.
+      Default: dl.RecurrentGraphBlock consisting of dl.MessagePassingNeuralNetwork and
+      a MLP head.
 
     Constraints
     -----------
-    - input: Dict[str, Any] or torch-geometric Data object containing the following attributes:
-        - x: torch.Tensor of shape (num_nodes, node_in_features).
-        - edge_index: torch.Tensor of shape (2, num_edges).
-        - edge_attr: torch.Tensor of shape (num_edges, edge_in_features).
-        - hidden_x: (Optional) torch.Tensor of shape (num_nodes, hidden_features).
-        - hidden_edge_attr: (Optional) torch.Tensor of shape (num_edges, hidden_features).
+    - Input graph data must include:
+        - `x`: Node features of shape (num_nodes, node_in_features).
+        - `edge_index`: Edge connectivity of shape (2, num_edges).
+        - `edge_attr`: Edge features of shape (num_edges, edge_in_features).
+    - Optional attributes:
+        - `hidden_x`: Node hidden states of shape (num_nodes, hidden_features).
+        - `hidden_edge_attr`: Edge hidden states of shape (num_edges, hidden_features).
+        If not provided, they are initialized as zeros.
+    - Input can be provided as a dictionary or a `torch_geometric.data.Data` object.
 
-        NOTE: node_in_features and edge_in_features are inferred from the input data.
+    Returns
+    -------
+    List[torch.Tensor]
+        List of tensors where each tensor corresponds to the output at an
+        iteration step, with shape (num_nodes, out_features).
 
-    - output: List[torch.Tensor] where each tensor has shape (num_nodes, out_features).
-
-    Examples
-    --------
-    >>> # Define a RMPN model with 96 hidden features, 2 output features, and 3 iterations
+    Example
+    -------
     >>> model = RecurrentMessagePassingModel(hidden_features=96, out_features=2, num_iter=3)
-
-    >>> # Input graph data
-    >>> inp = {
-    >>>     "x": torch.randn(10, 5),  # Node features
-    >>>     "edge_index": torch.randint(0, 10, (2, 20)),  # Edge connectivity
-    >>>     "edge_attr": torch.randn(20, 3),  # Edge features
-    >>> }
-
-    >>> # Model forward pass
-    >>> out = model(inp)
-
-    >>> # Output shape
-    >>> print(len(out))
+    >>> graph_data = {
+    ...     "x": torch.randn(10, 5),
+    ...     "edge_index": torch.randint(0, 10, (2, 20)),
+    ...     "edge_attr": torch.randn(20, 3),
+    ... }
+    >>> outputs = model(graph_data)
+    >>> print(len(outputs))
     3
-    >>> print(out[0].shape)
+    >>> print(outputs[0].shape)
     torch.Size([10, 2])
     """
 
@@ -165,6 +187,18 @@ class RecurrentMessagePassingModel(DeeplayModule):
         self.backbone.head.set_output_map()
 
     def forward(self, x):
+        """Forward pass.
+
+        Parameters
+        ----------
+        x : dict or torch_geometric.data.Data
+            Input graph data containing node and edge features.
+
+        Returns
+        -------
+        list
+            A list of tensors representing the model's output at each iteration.
+        """
         x = self.encoder(x)
         x = self.backbone(x)
         return x
