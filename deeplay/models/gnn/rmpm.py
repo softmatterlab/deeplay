@@ -80,7 +80,9 @@ class RecurrentMessagePassingModel(DeeplayModule):
 
     Example
     -------
-    >>> model = RecurrentMessagePassingModel(hidden_features=96, out_features=2, num_iter=3)
+    >>> model = RecurrentMessagePassingModel(hidden_features=96,
+                                             out_features=2,
+                                             num_iter=3).create()
     >>> graph_data = {
     ...     "x": torch.randn(10, 5),
     ...     "edge_index": torch.randint(0, 10, (2, 20)),
