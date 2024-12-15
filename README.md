@@ -57,6 +57,17 @@ This generates:
   import sys
   sys.path.insert(0, "release-code")
   ```
+- Add code to get the release from enviroment variable:
+  ```
+  import os
+
+  # get release from environment variable
+  version = os.environ.get("VERSION", "")
+  if not version:
+      print("Error: VERSION environment variable not set.")
+      sys.exit(1)
+  ```
+
 - Add required extensions:
 
   ```python
