@@ -125,7 +125,7 @@ This command creates the `src` folder (if needed), generates `.rst` files for ea
 
 ## The Version Switcher
 
-The version switcher allows users to navigate between different versions of your documentation directly from the site’s navigation bar. This is handled by the switcher.json file, stored in static/switcher.json, which follows a structure like:
+The version switcher allows users to navigate between different versions of your documentation directly from the site’s navigation bar. This is handled by the switcher.json file, stored in _static/switcher.json, which follows a structure like:
 
 ```
 [
@@ -220,7 +220,7 @@ jobs:
       # Step 6: Update switcher.json
       - name: Update switcher.json
         run: |
-          SWITCHER_FILE=static/switcher.json
+          SWITCHER_FILE=_static/switcher.json
           jq --arg version "$VERSION" \
              '. |= [{"name": $version, "version": $version, "url": "https://deeptrackai.github.io/deeplay/\($version)/"}] + .' \
              $SWITCHER_FILE > temp.json && mv temp.json $SWITCHER_FILE
@@ -248,7 +248,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/latest docs/$VERSION static/switcher.json
+          git add docs/latest docs/$VERSION _static/switcher.json
           git commit -m "Update docs for release $VERSION"
           git push
 ```
@@ -274,4 +274,4 @@ jobs:
 - **`generate_doc_markdown.py`**: Automation script that eliminates the need for manual `.rst` creation.
 - **`doc_requirements.txt`**: Lists the dependencies (Sphinx, sphinx-automodapi, pydata-sphinx-theme, etc.) needed to build documentation.
 - **`Makefile`**: Provides convenient commands (`make html`) to build the docs locally.
-- **`static/switcher.json`**: Used for version switching within the docs (managed by the workflow).
+- **`_static/switcher.json`**: Used for version switching within the docs (managed by the workflow).
