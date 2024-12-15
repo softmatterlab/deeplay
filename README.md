@@ -65,7 +65,7 @@ This generates:
 - Set the theme and options:
   ```python
   html_theme = "pydata_sphinx_theme"
-  html_static_path = ["static"]
+  html_static_path = ["_static"]
   html_theme_options = {
       "switcher": {
           "json_url": "https://yourusername.github.io/yourproject/latest/_static/switcher.json",
