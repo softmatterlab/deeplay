@@ -25,6 +25,7 @@ This guide explains how to set up and maintain documentation for your Python lib
 ### 3. Installing Dependencies & Configuring Sphinx
 
 You no longer need to manually create the `src` folder and populate `.rst` files yourself. The Python script described below will handle this step automatically for you.
+You need to perform the following steps checking out the main branch of your repo.
 
 **Install Dependencies:**
 
@@ -95,6 +96,8 @@ yourproject documentation
 ```
 
 ## Generating `.rst` Files with the Script
+
+This step will be done automatically by the code.
 
 A Python script `generate_doc_markdown.py` is provided to automate the `.rst` creation. It:
 
@@ -267,6 +270,7 @@ jobs:
 
 ## Special Files
 
+Ensure that all these files have been correctly prepared:
 - **`docs` branch**: Where documentation content and builds are hosted.
 - **`index.rst`**: Root documentation file linking to `Documentation.rst`.
 - **`Documentation.rst`**: Table of contents for your modules, generated automatically.
