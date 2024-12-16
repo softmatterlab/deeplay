@@ -10,17 +10,15 @@ Key points:
 - **Sphinx & Extensions**: Use Sphinx, `sphinx-automodapi`, and `pydata-sphinx-theme` to build the docs.
 - **CI/CD with GitHub Actions**: Once set up, the provided GitHub Actions workflow automatically updates the documentation every time a new release of the repository is published.
 
-## Initial Setup Steps
+## 1. Create the `docs` Branch on GitHub
 
-### 1. Create the `docs` Branch on GitHub
-
+- Create a `docs` branch in your repository.
 - Go to the repository’s **Settings**.
 - Under **Pages**, configure the site to be served from the `docs/` folder on the `docs` branch.
-- GitHub will create the `docs` branch if it doesn't already exist.
 
-### 2. Clean the `docs` Branch
+## 2. Clean the `docs` Branch
 
-- In the `docs` branch, delete all files except for `.gitignore`.
+- In the `docs` branch, delete all files except for `.gitignore` (and of course `.git`).
 - The branch should now be nearly empty, ready for the documentation setup.
 
 ### 3. Installing Dependencies & Configuring Sphinx
