@@ -51,12 +51,15 @@ This generates:
 **Edit `conf.py`:**
 
 - Add your code to `sys.path` so Sphinx can locate it:
+  
   ```python
   import sys
   sys.path.insert(0, "release-code")
   ```
+
 - Add code to get the release from enviroment variable:
-  ```
+  
+  ```python
   import os
 
   # get release from environment variable
@@ -105,36 +108,36 @@ yourproject documentation
    src/Documentation
 ```
 
-## Generating `.rst` Files with the Script
+## 4. Copy the File to Generate `.rst` Files with the Script
 
-This step will be done automatically by the code.
+Copy the Python script `generate_doc_markdown.py` to automate the `.rst` creation into the root folder of the `docs`branch.
 
-A Python script `generate_doc_markdown.py` is provided to automate the `.rst` creation. It:
-
-- Identifies top-level modules and packages in `release-code/<library_name>`.
-- Generates `.rst` files for each module.
-- Creates a `Documentation.rst` that acts as a table of contents.
-
-**Usage:**
-
-```bash
-python generate_doc_markdown.py <library_name> [--force] [--exclude=mod1,mod2,...] [--output-dir=src]
-```
-
-**Arguments:**
-
-- `<library_name>`: The name of your library (the folder under `release-code`).
-- `--force` / `-f`: Overwrite existing `.rst` files if present.
-- `--exclude` / `-e`: Exclude specific submodules from documentation.
-- `--output-dir` / `-o`: Directory to write output files, default is `src`.
-
-**Example:**
-
-```bash
-python generate_doc_markdown.py deeplay --force --exclude=_internal --output-dir=src
-```
-
-This command creates the `src` folder (if needed), generates `.rst` files for each module, and updates `Documentation.rst` automatically.
+> This will automate the `.rst` creation. It:
+>
+> - Identifies top-level modules and packages in `release-code/<library_name>`.
+> - Generates `.rst` files for each module.
+> - Creates a `Documentation.rst` that acts as a table of contents.
+> 
+> **Usage:**
+> 
+> ```bash
+> python generate_doc_markdown.py <library_name> [--force] [--exclude=mod1,mod2,...] [--output-dir=src]
+> ```
+> 
+> **Arguments:**
+> 
+> - `<library_name>`: The name of your library (the folder under `release-code`).
+> - `--force` / `-f`: Overwrite existing `.rst` files if present.
+> - `--exclude` / `-e`: Exclude specific submodules from documentation.
+> - `--output-dir` / `-o`: Directory to write output files, default is `src`.
+> 
+> **Example:**
+> 
+> ```bash
+> python generate_doc_markdown.py deeplay --force --exclude=_internal --output-dir=src
+> ```
+> 
+> This command creates the `src` folder (if needed), generates `.rst` files for each module, and updates `Documentation.rst` automatically.
 
 ## The Version Switcher
 
