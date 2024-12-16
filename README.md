@@ -181,7 +181,7 @@ Add the version switcher `switcher.json` to the folder `_static`of the `docs`bra
 ## 6. Ensure All Special Files Are Set Up in the `docs` Branch
 
 Ensure that all these files have been correctly prepared:
-- **`docs`** folder: Where documentation content and builds are hosted. This should include **index.html.** and **.nojekyll** (to prevent GitHub Pages from ignoring _static and other files that begin with an underscore).
+- **`docs`** folder: Where documentation content and builds are hosted. This should include **index.html.** (to redirect to the `docs/latest` folder) and **.nojekyll** (to prevent GitHub Pages from ignoring _static and other files that begin with an underscore).
 - **`index.rst`**: Root documentation file linking to `Documentation.rst`.
 - **`conf.py`**: Sphinx configuration file where you set up paths, extensions, and themes.
 - **`generate_doc_markdown.py`**: Automation script that eliminates the need for manual `.rst` creation.
