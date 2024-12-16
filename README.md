@@ -6,9 +6,9 @@ For example, for the repository **https://"https://github.com/ORGANIZATION/REPO/
 
 Key points:
 - **Dedicated `docs` branch**: The documentation is served from the `docs` folder on the `docs` branch, utilizing GitHub Pages (so that it's updated automatically in the GitHub page when this folder is changed through a push).
-2. **Automated `.rst` File Generation**: A Python script (`generate_doc_markdown.py`) scans your codebase and generates `.rst` files automatically.
-3. **Sphinx & Extensions**: Use Sphinx, `sphinx-automodapi`, and `pydata-sphinx-theme` to build the docs.
-4. **CI/CD with GitHub Actions**: Once set up, the provided GitHub Actions workflow automatically updates the documentation every time a new release is published.
+- **Automated `.rst` File Generation**: A Python script (`generate_doc_markdown.py`) scans your codebase and generates the `.rst` files automatically.
+- **Sphinx & Extensions**: Use Sphinx, `sphinx-automodapi`, and `pydata-sphinx-theme` to build the docs.
+- **CI/CD with GitHub Actions**: Once set up, the provided GitHub Actions workflow automatically updates the documentation every time a new release of the repository is published.
 
 ## Initial Setup Steps
 
