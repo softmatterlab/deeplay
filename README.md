@@ -188,6 +188,7 @@ Ensure that all these files have been correctly prepared:
 - **`doc_requirements.txt`**: Lists the dependencies (Sphinx, sphinx-automodapi, pydata-sphinx-theme, etc.) needed to build documentation.
 - **`Makefile`**: Provides convenient commands (`make html`) to build the docs locally.
 - **`_static/switcher.json`**: Used for version switching within the docs (managed by the workflow).
+- **`README.md`**: Copy this readme file as well into the `docs`branch.
 
 ## 7. Add Worflow for Automated Documentation on Release
 
