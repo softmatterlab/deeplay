@@ -165,8 +165,7 @@ Copy the Python script `generate_doc_markdown.py` to automate the `.rst` creatio
 Add the version switcher `switcher.json` to the folder `_static`of the `docs`branch.
 
 ```
-[
-]
+[]
 ```
 
 
