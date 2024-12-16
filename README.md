@@ -96,7 +96,8 @@ This generates:
   automodapi_inheritance_diagram = False
   ```
 
-- Set the theme and options:
+- Set the theme and options (change ORGANIZATION and REPO as needed):
+
   ```python
   html_theme = "pydata_sphinx_theme"
   html_static_path = ["_static"]
