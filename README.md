@@ -167,115 +167,119 @@ Add the version switcher `switcher.json` to the folder `_static`of the `docs`bra
 >     The html_theme_options in conf.py references this file, enabling a dropdown menu to choose the version.
 >     The GitHub Actions workflow updates switcher.json upon new releases by prepending the new version into this list. This ensures that the newly released version appears in the version switcher, and users can easily switch to it.
 
-## Automated Documentation on Release
+## 6. Add Worflow for Automated Documentation on Release
 
-Once your documentation setup is complete (i.e., you have `conf.py`, `index.rst`, `doc_requirements.txt`, etc. in place), the provided GitHub Actions workflow automates the entire process whenever a new release is published. This workflow:
+Add the `docs.yml` to the `.github/workflows/docs.yml` folder of the branch of your project from which the release will be made.
 
-1. Checks out the `docs` branch.
-2. Sets up Python and installs dependencies from `requirements.txt`.
-3. Checks out the release code (tag specified by the release event) into `release-code`.
-4. Runs the `generate_doc_markdown.py` script to generate/update `.rst` files.
-5. Builds the Sphinx documentation.
-6. Copies the built HTML files to `docs/latest` and `docs/{version}` directories.
-7. Commits and pushes these changes back to the `docs` branch, updating the live documentation on GitHub Pages.
+In the code below, ensure that PYTHON_PACKAGE, ORGANIZATON and REPO are the correct ones. Other minor changes might be needed (e.g., Python version).
 
-**Example Workflow (in `.github/workflows/update-docs.yml`):**
-
-```yaml
-name: Update Documentation
-
-on:
-  release:
-    types:
-      - published
-  workflow_dispatch:
-    inputs:
-      test_tag:
-        description: "Release tag to simulate"
-        required: true
-
-jobs:
-  update-docs:
-    name: Update Documentation
-    runs-on: ubuntu-latest
-
-    steps:
-      # Step 1: Check out the docs branch
-      - name: Checkout docs branch
-        uses: actions/checkout@v3
-        with:
-          ref: docs
-
-      # Step 2: Set up Python
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.9"
-
-      # Step 3: Install dependencies
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r doc_requirements.txt
-
-      # Step 4: Pull the release code into a separate directory
-      - name: Checkout release code
-        uses: actions/checkout@v3
-        with:
-          path: release-code
-          # Use the test tag from workflow_dispatch or the actual release tag
-          ref: ${{ github.event.inputs.test_tag || github.event.release.tag_name }}
-
-      - name: Install the package
-        run: |
-          cd release-code
-          pip install -e .
-
-      - name: Create the markdown files
-        run: |
-          python generate_doc_markdown.py deeplay --exclude=tests,test
-
-      # Step 5: Set version variable
-      - name: Set version variable
-        run: |
-          VERSION=${{ github.event.inputs.test_tag || github.event.release.tag_name }}
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-
-      # Step 6: Update switcher.json
-      - name: Update switcher.json
-        run: |
-          SWITCHER_FILE=_static/switcher.json
-          jq --arg version "$VERSION" \
-             '. |= [{"name": $version, "version": $version, "url": "https://deeptrackai.github.io/deeplay/\($version)/"}] + .' \
-             $SWITCHER_FILE > temp.json && mv temp.json $SWITCHER_FILE
-
-      # Step 7: Build documentation using Sphinx into html
-      - name: Build documentation
-        env:
-          SPHINX_APIDOC_DIR: release-code
-        run: make html
-
-      # Step 8: Copy built HTML to `docs/latest` and `docs/{version}`
-      - name: Copy built HTML
-        run: |
-          mkdir -p docs/latest
-          mkdir -p docs/$VERSION
-          cp -r _build/html/* docs/latest/
-          cp -r _build/html/* docs/$VERSION/
-
-      # Step 9: Clean up `release-code` directory
-      - name: Remove release-code directory
-        run: rm -rf release-code
-
-      # Step 10: Commit and push changes
-      - name: Commit and push changes
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/latest docs/$VERSION _static/switcher.json
-          git commit -m "Update docs for release $VERSION"
-          git push
-```
+> This workflow:
+> 
+> 1. Checks out the `docs` branch.
+> 2. Sets up Python and installs dependencies from `requirements.txt`.
+> 3. Checks out the release code (tag specified by the release event) into `release-code`.
+> 4. Runs the `generate_doc_markdown.py` script to generate/update `.rst` files.
+> 5. Builds the Sphinx documentation.
+> 6. Copies the built HTML files to `docs/latest` and `docs/{version}` directories.
+> 7. Commits and pushes these changes back to the `docs` branch, updating the live documentation on GitHub Pages.
+> 
+> **Example Workflow (in `.github/workflows/docs.yml`):**
+> 
+> ```yaml
+> name: Update Documentation
+> 
+> on:
+>   release:
+>     types:
+>       - published
+>   workflow_dispatch:
+>     inputs:
+>       test_tag:
+>         description: "Release tag to simulate"
+>         required: true
+> 
+> jobs:
+>   update-docs:
+>     name: Update Documentation
+>     runs-on: ubuntu-latest
+> 
+>     steps:
+>       # Step 1: Check out the docs branch
+>       - name: Checkout docs branch
+>         uses: actions/checkout@v3
+>         with:
+>           ref: docs
+> 
+>       # Step 2: Set up Python
+>       - name: Set up Python
+>         uses: actions/setup-python@v4
+>         with:
+>           python-version: "3.9"
+> 
+>       # Step 3: Install dependencies
+>       - name: Install dependencies
+>         run: |
+>           python -m pip install --upgrade pip
+>           pip install -r doc_requirements.txt
+> 
+>       # Step 4: Pull the release code into a separate directory
+>       - name: Checkout release code
+>         uses: actions/checkout@v3
+>         with:
+>           path: release-code
+>           # Use the test tag from workflow_dispatch or the actual release tag
+>           ref: ${{ github.event.inputs.test_tag || github.event.release.tag_name }}
+> 
+>       - name: Install the package
+>         run: |
+>           cd release-code
+>           pip install -e .
+> 
+>       - name: Create the markdown files
+>         run: |
+>           python generate_doc_markdown.py PYTHON_PACKAGE --exclude=tests,test
+> 
+>       # Step 5: Set version variable
+>       - name: Set version variable
+>         run: |
+>           VERSION=${{ github.event.inputs.test_tag || github.event.release.tag_name }}
+>           echo "VERSION=$VERSION" >> $GITHUB_ENV
+> 
+>       # Step 6: Update switcher.json
+>       - name: Update switcher.json
+>         run: |
+>           SWITCHER_FILE=_static/switcher.json
+>           jq --arg version "$VERSION" \
+>              '. |= [{"name": $version, "version": $version, "url": "https://ORGANIZATION.github.io/REPO/\($version)/"}] + .' \
+>              $SWITCHER_FILE > temp.json && mv temp.json $SWITCHER_FILE
+> 
+>       # Step 7: Build documentation using Sphinx into html
+>       - name: Build documentation
+>         env:
+>           SPHINX_APIDOC_DIR: release-code
+>         run: make html
+> 
+>       # Step 8: Copy built HTML to `docs/latest` and `docs/{version}`
+>       - name: Copy built HTML
+>         run: |
+>           mkdir -p docs/latest
+>           mkdir -p docs/$VERSION
+>           cp -r _build/html/* docs/latest/
+>           cp -r _build/html/* docs/$VERSION/
+> 
+>       # Step 9: Clean up `release-code` directory
+>       - name: Remove release-code directory
+>         run: rm -rf release-code
+> 
+>       # Step 10: Commit and push changes
+>       - name: Commit and push changes
+>         run: |
+>           git config user.name "github-actions[bot]"
+>           git config user.email "github-actions[bot]@users.noreply.github.com"
+>           git add docs/latest docs/$VERSION _static/switcher.json
+>           git commit -m "Update docs for release $VERSION"
+>           git push
+> ```
 
 ## Logical Flow of Documentation Updates
 
