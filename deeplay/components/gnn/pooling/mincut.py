@@ -115,8 +115,11 @@ class MinCutPooling(DeeplayModule):
                 ind = torch.arange(A.shape[0])
                 A[ind, ind] = 0                         
                 D = torch.einsum('jk->j', A)            
-                D = torch.sqrt(D)[None] + self.eps      
-                A = (A / D) / D.transpose(-2,-1)      
+                D_inv_sq = torch.pow(D, -0.5)
+                D_inv_sq = torch.where(torch.isinf(D_inv_sq), torch.tensor(0.0), D_inv_sq)
+                D_inv_sq = torch.diag(D_inv_sq)
+
+                A = D_inv_sq @ A @ D_inv_sq
                 return A
             
         class MinCutLoss(DeeplayModule):

@@ -1,4 +1,5 @@
 from .mpn import MessagePassingNeuralNetwork
+from .mpn_gaudi import MessagePassingNeuralNetworkGAUDI
 from .rmpn import ResidualMessagePassingNeuralNetwork
 
 from .transformation import *

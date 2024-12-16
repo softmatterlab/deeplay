@@ -7,12 +7,14 @@ from deeplay import (
     Layer,
     LayerList,
 )
-from deeplay.components.gnn import GraphConvolutionalNeuralNetwork, MessagePassingNeuralNetwork
+from deeplay.components.gnn import MessagePassingNeuralNetworkGAUDI, GraphConvolutionalNeuralNetworkConcat
 from deeplay.components.gnn.pooling import MinCutPooling, MinCutUpsampling
 from deeplay.ops import Cat
 from deeplay.components.gnn.pooling import GlobalGraphPooling, GlobalGraphUpsampling
-from deeplay.components.gnn.mpn import GetEdgeFeatures
+# from deeplay.components.gnn.mpn import TransformOnlySenderNodes
 from deeplay.components.mlp import MultiLayerPerceptron
+from deeplay.ops import GetEdgeFeaturesNew
+# from deeplay.components.gnn.mpn.propagation import Mean
 
 import torch.nn as nn
     
@@ -104,11 +106,21 @@ class GraphEncoder(DeeplayModule):
         assert len(num_clusters) == num_blocks, "Lenght of number of clusters should match num_blocks."
 
 
-        self.message_passing = MessagePassingNeuralNetwork(
+        self.message_passing = MessagePassingNeuralNetworkGAUDI(
             hidden_features=[hidden_features],
             out_features=hidden_features,
             out_activation=nn.ReLU
         )
+
+        # self.message_passing.transform = TransformOnlySenderNodes(
+        #     combine=Cat(),
+        #     layer=Layer(nn.LazyLinear, hidden_features),
+        #     activation=nn.ReLU,
+        # )
+        
+        # self.message_passing.transform.set_input_map("x", "edge_index", "input_edge_attr")
+        # self.message_passing.propagate = Mean()
+        # self.message_passing.propagate.set_input_map("x", "edge_index", "edge_attr")
 
         self.dense = Layer(nn.Linear, hidden_features, hidden_features)
         self.dense.set_input_map('x')
@@ -165,6 +177,8 @@ class GraphEncoder(DeeplayModule):
             self.blocks.append(block)          
     
     def forward(self, x):
+        x['input_edge_index'] = x['edge_index']     # Do this in a nicer way
+        x['input_edge_attr'] = x['edge_attr']
         x = self.message_passing(x)
         x = self.dense(x)
         x = self.activate(x)
@@ -277,32 +291,60 @@ class GraphDecoder(DeeplayModule):
             )
 
             self.blocks.append(block)    
-
+      
         self.dense = Layer(nn.Linear, hidden_features, hidden_features)     
         self.dense.set_input_map('x')
         self.dense.set_output_map('x')    
 
         self.activate = Layer(nn.ReLU)
         self.activate.set_input_map('x')
-        self.activate.set_output_map('x')  
+        self.activate.set_output_map('x') 
+            
+        self.get_edge_attr = GetEdgeFeaturesNew()
+        self.get_edge_attr.set_input_map("x", "input_edge_index")
+        self.get_edge_attr.set_output_map("edge_attr_sender", "edge_attr_receiver") 
 
-        # get the edge features:
-        self.get_edge_attr = GetEdgeFeatures(
-            combine=Cat(),
-            layer=Layer(nn.LazyLinear, hidden_features),
-            activation=Layer(nn.ReLU),
-        )
-        self.get_edge_attr.set_input_map("x", "edge_index")
-        self.get_edge_attr.set_output_map("edge_attr") 
+        self.dense_sender = Layer(nn.Linear, hidden_features, hidden_features)     
+        self.dense_sender.set_input_map('edge_attr_sender')
+        self.dense_sender.set_output_map('edge_attr_sender')    
 
-        self.edge_mlp = MultiLayerPerceptron(
-            in_features=hidden_features,
-            hidden_features=[hidden_features],
-            out_features=output_edge_dim,
-            out_activation=None,
-        )
-        self.edge_mlp.set_input_map("edge_attr") 
-        self.edge_mlp.set_output_map("edge_attr") 
+        self.activate_sender = Layer(nn.ReLU)
+        self.activate_sender.set_input_map('edge_attr_sender')
+        self.activate_sender.set_output_map('edge_attr_sender')  
+
+        self.dense_receiver = Layer(nn.Linear, hidden_features, hidden_features)     
+        self.dense_receiver.set_input_map('edge_attr_receiver')
+        self.dense_receiver.set_output_map('edge_attr_receiver')    
+
+        self.activate_receiver = Layer(nn.ReLU)
+        self.activate_receiver.set_input_map('edge_attr_receiver')
+        self.activate_receiver.set_output_map('edge_attr_receiver') 
+
+        self.concat_edge_attr = Cat()
+        self.concat_edge_attr.set_input_map('edge_attr_sender', 'edge_attr_receiver')
+        self.concat_edge_attr.set_output_map('edge_attr')
+
+        self.dense_edge_mlp_1 = Layer(nn.Linear, hidden_features * 2, hidden_features)     
+        self.dense_edge_mlp_1.set_input_map('edge_attr')
+        self.dense_edge_mlp_1.set_output_map('edge_attr')   
+
+        self.activate_edge_mlp_1 = Layer(nn.ReLU)
+        self.activate_edge_mlp_1.set_input_map('edge_attr')
+        self.activate_edge_mlp_1.set_output_map('edge_attr') 
+
+        self.dense_edge_mlp_2 = Layer(nn.Linear, hidden_features, output_edge_dim)     
+        self.dense_edge_mlp_2.set_input_map('edge_attr')
+        self.dense_edge_mlp_2.set_output_map('edge_attr')   
+
+        # # get the edge features:
+        # self.edge_mlp = MultiLayerPerceptron(
+        #     in_features = hidden_features * 2,
+        #     hidden_features = [hidden_features],
+        #     out_features = output_edge_dim,
+        #     out_activation = None,
+        # )        
+        # self.edge_mlp.set_input_map('edge_attr')
+        # self.edge_mlp.set_output_map('edge_attr') 
 
         # get the node features:
         self.node_mlp = MultiLayerPerceptron(
@@ -312,7 +354,7 @@ class GraphDecoder(DeeplayModule):
             out_activation = None,
         )        
         self.node_mlp.set_input_map('x')
-        self.node_mlp.set_output_map('x')    
+        self.node_mlp.set_output_map('x')  
 
     def forward(self, x):
         for block in self.blocks:
@@ -320,8 +362,21 @@ class GraphDecoder(DeeplayModule):
 
         x = self.dense(x)
         x = self.activate(x)
+
         x = self.get_edge_attr(x)
-        x = self.edge_mlp(x)
+        x = self.dense_sender(x)
+        x = self.activate_sender(x)
+        x = self.dense_receiver(x)
+        x = self.activate_receiver(x)
+        x = self.concat_edge_attr(x)
+
+        x = self.dense_edge_mlp_1(x)
+        x = self.activate_edge_mlp_1(x)
+
+        x = self.dense_edge_mlp_2(x)
+
+        # x = self.edge_mlp(x)
+
         x = self.node_mlp(x)
         return x
     
@@ -411,18 +466,16 @@ class GraphEncoderBlock(DeeplayModule):
         )
         self.edge_index_map = edge_index_map
         self.connect_output_map = connect_output_map
-
-        self.gcn = GraphConvolutionalNeuralNetwork(         
+    
+        self.gcn = GraphConvolutionalNeuralNetworkConcat(        
             in_features=in_features,
             hidden_features=[],  
             out_features=out_features,
             out_activation=nn.ReLU, 
             )
-        
-        self.gcn.normalize.set_input_map('x', edge_index_map)
-        self.gcn.normalize.set_output_map('laplacian')
-        self.gcn.propagate.set_input_map("x", "laplacian")
-            
+
+        self.gcn.propagate.set_input_map("x", edge_index_map)
+
         if pool == MinCutPooling:
             if num_clusters is None:
                 raise ValueError("num_clusters must be provided for MinCutPooling")
@@ -532,17 +585,15 @@ class GraphDecoderBlock(DeeplayModule):
         else:
             self.upsample = upsample()
             self.upsample.upsample.set_input_map('x', select_input_map)
-
-        self.gcn = GraphConvolutionalNeuralNetwork(
+      
+        self.gcn = GraphConvolutionalNeuralNetworkConcat(   
             in_features=in_features,                                                                            
             hidden_features=[],  
             out_features=out_features,
             out_activation=nn.ReLU, 
             )
         
-        self.gcn.normalize.set_input_map('x', edge_index_map)
-        self.gcn.normalize.set_output_map('laplacian')
-        self.gcn.propagate.set_input_map("x", "laplacian")
+        self.gcn.propagate.set_input_map("x", edge_index_map)
 
     def forward(self, x):
         x = self.upsample(x)
