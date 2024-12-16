@@ -10,6 +10,17 @@ Key points:
 - **Sphinx & Extensions**: Use Sphinx, `sphinx-automodapi`, and `pydata-sphinx-theme` to build the docs.
 - **CI/CD with GitHub Actions**: Once set up, the provided GitHub Actions workflow automatically updates the documentation every time a new release of the repository is published.
 
+Logical flow of documentation updates:
+1. **Initial Setup**: Configure `docs` branch, Sphinx, and dependencies.
+2. **Automated `.rst` Generation**: Use `generate_doc_markdown.py` to generate `.rst` files from code.
+3. **Building Locally (if needed)**: `make html` to verify documentation locally.
+4. **Release Trigger**: On publishing a new release, the GitHub Actions workflow:
+   - Checks out `docs` branch and release code.
+   - Generates `.rst` files.
+   - Builds HTML docs.
+   - Deploys the updated docs to `docs/latest` and `docs/<version>`.
+5. **Automatic Deployment**: Changes are committed back to `docs` branch and served on GitHub Pages.
+
 ## 1. Create the `docs` Branch on GitHub
 
 - Create a `docs` branch in your repository.
@@ -167,7 +178,18 @@ Add the version switcher `switcher.json` to the folder `_static`of the `docs`bra
 >     The html_theme_options in conf.py references this file, enabling a dropdown menu to choose the version.
 >     The GitHub Actions workflow updates switcher.json upon new releases by prepending the new version into this list. This ensures that the newly released version appears in the version switcher, and users can easily switch to it.
 
-## 6. Add Worflow for Automated Documentation on Release
+## 6. Ensure All Special Files Are Set Up in the `docs` Branch
+
+Ensure that all these files have been correctly prepared:
+- **`docs`** folder: Where documentation content and builds are hosted. This should include **index.html.** and **.nojekyll** (to prevent GitHub Pages from ignoring _static and other files that begin with an underscore).
+- **`index.rst`**: Root documentation file linking to `Documentation.rst`.
+- **`conf.py`**: Sphinx configuration file where you set up paths, extensions, and themes.
+- **`generate_doc_markdown.py`**: Automation script that eliminates the need for manual `.rst` creation.
+- **`doc_requirements.txt`**: Lists the dependencies (Sphinx, sphinx-automodapi, pydata-sphinx-theme, etc.) needed to build documentation.
+- **`Makefile`**: Provides convenient commands (`make html`) to build the docs locally.
+- **`_static/switcher.json`**: Used for version switching within the docs (managed by the workflow).
+
+## 7. Add Worflow for Automated Documentation on Release
 
 Add the `docs.yml` to the `.github/workflows/docs.yml` folder of the branch of your project from which the release will be made.
 
@@ -281,31 +303,7 @@ In the code below, ensure that PYTHON_PACKAGE, ORGANIZATON and REPO are the corr
 >           git push
 > ```
 
-## Logical Flow of Documentation Updates
-
-1. **Initial Setup**: Configure `docs` branch, Sphinx, and dependencies.
-2. **Automated `.rst` Generation**: Use `generate_doc_markdown.py` to generate `.rst` files from code.
-3. **Building Locally (if needed)**: `make html` to verify documentation locally.
-4. **Release Trigger**: On publishing a new release, the GitHub Actions workflow:
-   - Checks out `docs` branch and release code.
-   - Generates `.rst` files.
-   - Builds HTML docs.
-   - Deploys the updated docs to `docs/latest` and `docs/<version>`.
-5. **Automatic Deployment**: Changes are committed back to `docs` branch and served on GitHub Pages.
-
-## Special Files
-
-Ensure that all these files have been correctly prepared:
-- **`docs`** folder: Where documentation content and builds are hosted. This should include **index.html.** and **.nojekyll** (to prevent GitHub Pages from ignoring _static and other files that begin with an underscore).
-- **`index.rst`**: Root documentation file linking to `Documentation.rst`.
-- **`Documentation.rst`**: Table of contents for your modules, generated automatically.
-- **`conf.py`**: Sphinx configuration file where you set up paths, extensions, and themes.
-- **`generate_doc_markdown.py`**: Automation script that eliminates the need for manual `.rst` creation.
-- **`doc_requirements.txt`**: Lists the dependencies (Sphinx, sphinx-automodapi, pydata-sphinx-theme, etc.) needed to build documentation.
-- **`Makefile`**: Provides convenient commands (`make html`) to build the docs locally.
-- **`_static/switcher.json`**: Used for version switching within the docs (managed by the workflow).
-
-## Enable Write Permissions for GitHub Actions
+## 8. Enable Write Permissions for GitHub Actions
 
 Ensure that GitHub Actions have write permissions to the repository following these steps:
 - Go to your repository on GitHub.
