@@ -282,7 +282,7 @@ jobs:
 ## Special Files
 
 Ensure that all these files have been correctly prepared:
-- **`docs` branch**: Where documentation content and builds are hosted.
+- **`docs`** folder: Where documentation content and builds are hosted. This should include **index.html.** and **.nojekyll.txt**.
 - **`index.rst`**: Root documentation file linking to `Documentation.rst`.
 - **`Documentation.rst`**: Table of contents for your modules, generated automatically.
 - **`conf.py`**: Sphinx configuration file where you set up paths, extensions, and themes.
