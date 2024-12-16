@@ -159,7 +159,7 @@ How it works:
 
 ## Automated Documentation on Release
 
-Once your documentation setup is complete (i.e., you have `conf.py`, `index.rst`, `requirements.txt`, etc. in place), the provided GitHub Actions workflow automates the entire process whenever a new release is published. This workflow:
+Once your documentation setup is complete (i.e., you have `conf.py`, `index.rst`, `doc_requirements.txt`, etc. in place), the provided GitHub Actions workflow automates the entire process whenever a new release is published. This workflow:
 
 1. Checks out the `docs` branch.
 2. Sets up Python and installs dependencies from `requirements.txt`.
