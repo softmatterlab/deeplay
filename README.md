@@ -58,8 +58,8 @@ This generates:
 
 - `conf.py` (Sphinx configuration file)
 - `Makefile`
-- index.rst
-- make.bat
+- `index.rst`
+- `make.bat`
 
 **Edit `conf.py`:**
 
