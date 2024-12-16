@@ -86,6 +86,8 @@ This generates:
 
   ```python
   extensions = ["sphinx_automodapi.automodapi", "sphinx.ext.githubpages"]
+  numpydoc_show_class_members = False
+  automodapi_inheritance_diagram = False
   ```
 
 - Set the theme and options:
