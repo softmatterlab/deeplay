@@ -2,9 +2,10 @@
 
 This guide explains how to set up and maintain documentation for your Python library in a dedicated `docs` branch with GitHub Pages. It also details how all the steps, once configured, are automated via a GitHub Actions workflow that updates and builds documentation upon new releases.
 
-## Overview
+For example, for the repository **https://"https://github.com/ORGANIZATION/REPO/** the corresponding GitHub documentaiton page will be ***https://"https://ORGANIZATION.github.io/REPO/***.
 
-1. **Dedicated `docs` branch**: Documentation is served from the `docs` folder on the `docs` branch, utilizing GitHub Pages.
+Key points:
+- **Dedicated `docs` branch**: The documentation is served from the `docs` folder on the `docs` branch, utilizing GitHub Pages (so that it's updated automatically in the GitHub page when this folder is changed through a push).
 2. **Automated `.rst` File Generation**: A Python script (`generate_doc_markdown.py`) scans your codebase and generates `.rst` files automatically.
 3. **Sphinx & Extensions**: Use Sphinx, `sphinx-automodapi`, and `pydata-sphinx-theme` to build the docs.
 4. **CI/CD with GitHub Actions**: Once set up, the provided GitHub Actions workflow automatically updates the documentation every time a new release is published.
