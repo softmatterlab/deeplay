@@ -78,6 +78,8 @@ This generates:
   if not version:
       print("Error: VERSION environment variable not set.")
       sys.exit(1)
+
+  release = version
   ```
 
 - Add required extensions:
