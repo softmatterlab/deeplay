@@ -139,25 +139,33 @@ Copy the Python script `generate_doc_markdown.py` to automate the `.rst` creatio
 > 
 > This command creates the `src` folder (if needed), generates `.rst` files for each module, and updates `Documentation.rst` automatically.
 
-## The Version Switcher
+## 5. Add the Version Switcher
 
-The version switcher allows users to navigate between different versions of your documentation directly from the site’s navigation bar. This is handled by the switcher.json file, stored in _static/switcher.json, which follows a structure like:
+Add the version switcher `switcher.json` to the folder `_static`of the `docs`branch.
 
 ```
 [
-  {
-    "name": "0.1.0",
-    "version": "0.1.0",
-    "url": "https://yourusername.github.io/yourproject/0.1.0/"
-  },
 ]
 ```
 
-How it works:
 
-    Each entry in switcher.json specifies a documentation version and the URL where it can be found.
-    The html_theme_options in conf.py references this file, enabling a dropdown menu to choose the version.
-    The GitHub Actions workflow updates switcher.json upon new releases by prepending the new version into this list. This ensures that the newly released version appears in the version switcher, and users can easily switch to it.
+> The version switcher allows users to navigate between different versions of your documentation directly from the site’s navigation bar. This is handled by the switcher.json file, stored in _static/switcher.json, which follows a structure like:
+> 
+> ```
+> [
+>   {
+>     "name": "0.1.0",
+>     "version": "0.1.0",
+>     "url": "https://yourusername.github.io/yourproject/0.1.0/"
+>   }
+> ]
+> ```
+> 
+> How it works:
+> 
+>     Each entry in switcher.json specifies a documentation version and the URL where it can be found.
+>     The html_theme_options in conf.py references this file, enabling a dropdown menu to choose the version.
+>     The GitHub Actions workflow updates switcher.json upon new releases by prepending the new version into this list. This ensures that the newly released version appears in the version switcher, and users can easily switch to it.
 
 ## Automated Documentation on Release
 
