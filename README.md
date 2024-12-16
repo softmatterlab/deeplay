@@ -2,7 +2,7 @@
 
 This guide explains how to set up and maintain documentation for your Python library in a dedicated `docs` branch with GitHub Pages. It also details how all the steps, once configured, are automated via a GitHub Actions workflow that updates and builds documentation upon new releases.
 
-For example, for the repository **https://"https://github.com/ORGANIZATION/REPO/** the corresponding GitHub documentation page will be ***https://"https://ORGANIZATION.github.io/REPO/***.
+For example, for the repository **https://"https://github.com/ORGANIZATION/REPO/** the corresponding GitHub documentation page will be **https://"https://ORGANIZATION.github.io/REPO/**.
 
 Key points:
 - **Dedicated `docs` branch**: The documentation is served from the `docs` folder on the `docs` branch, utilizing GitHub Pages (so that it's updated automatically in the GitHub page when this folder is changed through a push).
