@@ -282,7 +282,7 @@ jobs:
 ## Special Files
 
 Ensure that all these files have been correctly prepared:
-- **`docs`** folder: Where documentation content and builds are hosted. This should include **index.html.** and **.nojekyll.txt**.
+- **`docs`** folder: Where documentation content and builds are hosted. This should include **index.html.** and **.nojekyll** (to prevent GitHub Pages from ignoring _static and other files that begin with an underscore).
 - **`index.rst`**: Root documentation file linking to `Documentation.rst`.
 - **`Documentation.rst`**: Table of contents for your modules, generated automatically.
 - **`conf.py`**: Sphinx configuration file where you set up paths, extensions, and themes.
