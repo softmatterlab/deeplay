@@ -167,7 +167,7 @@ Add the version switcher `switcher.json` to the folder `_static`of the `docs`bra
 >   {
 >     "name": "0.1.0",
 >     "version": "0.1.0",
->     "url": "https://yourusername.github.io/yourproject/0.1.0/"
+>     "url": "https://ORGANIZATION.github.io/REPO/0.1.0/"
 >   }
 > ]
 > ```
