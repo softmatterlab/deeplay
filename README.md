@@ -290,3 +290,12 @@ Ensure that all these files have been correctly prepared:
 - **`doc_requirements.txt`**: Lists the dependencies (Sphinx, sphinx-automodapi, pydata-sphinx-theme, etc.) needed to build documentation.
 - **`Makefile`**: Provides convenient commands (`make html`) to build the docs locally.
 - **`_static/switcher.json`**: Used for version switching within the docs (managed by the workflow).
+
+## Enable Write Permissions for GitHub Actions
+
+Ensure that GitHub Actions have write permissions to the repository following these steps:
+- Go to your repository on GitHub.
+- Navigate to Settings > Actions > General.
+- Scroll to the Workflow permissions section.
+- Select Read and write permissions.
+- Click Save.
