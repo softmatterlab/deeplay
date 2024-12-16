@@ -80,7 +80,11 @@ This generates:
   if not version:
       print("Error: VERSION environment variable not set.")
       sys.exit(1)
+  ```
 
+- Edit/Add the version number to appear in the title:
+
+  ```python
   release = version
   ```
 
