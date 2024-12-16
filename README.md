@@ -21,10 +21,9 @@ Key points:
 - In the `docs` branch, delete all files except for `.gitignore` (and of course `.git`).
 - The branch should now be nearly empty, ready for the documentation setup.
 
-### 3. Installing Dependencies & Configuring Sphinx
+## 3. Configuring Sphinx
 
-You no longer need to manually create the `src` folder and populate `.rst` files yourself. The Python script described below will handle this step automatically for you.
-You need to perform the following steps checking out the main branch of your repo.
+You need to perform the following steps checking out the `docs` branch of your repo.
 
 **Install Dependencies:**
 
@@ -79,7 +78,7 @@ This generates:
   html_static_path = ["_static"]
   html_theme_options = {
       "switcher": {
-          "json_url": "https://yourusername.github.io/yourproject/latest/_static/switcher.json",
+          "json_url": "https://ORGANIZATION.github.io/REPO/latest/_static/switcher.json",
           "version_match": version,
       },
       "navbar_end": [
@@ -89,7 +88,8 @@ This generates:
   }
   ```
 
-**Create `index.rst`:**
+**Create/edit `index.rst`:**
+
 Place an `index.rst` file at the root of the `docs` branch:
 
 ```rst
