@@ -96,7 +96,7 @@ This generates:
   automodapi_inheritance_diagram = False
   ```
 
-- Set the theme and options (change ORGANIZATION and REPO as needed):
+- Set the theme and options (**change ORGANIZATION and REPO as needed**):
 
   ```python
   html_theme = "pydata_sphinx_theme"
@@ -188,7 +188,13 @@ Add the version switcher `switcher.json` to the folder `_static`of the `docs`bra
 >     The html_theme_options in conf.py references this file, enabling a dropdown menu to choose the version.
 >     The GitHub Actions workflow updates switcher.json upon new releases by prepending the new version into this list. This ensures that the newly released version appears in the version switcher, and users can easily switch to it.
 
-## 6. Ensure All Special Files Are Set Up in the `docs` Branch
+## 6. Add the Following Files
+
+- **`doc_requirements.txt`**: Lists the dependencies (Sphinx, sphinx-automodapi, pydata-sphinx-theme, etc.) needed to build documentation.
+
+- **`docs`** folder: Where documentation content and builds are hosted. This should include **index.html.** (to redirect to the `docs/latest` folder) and **.nojekyll** (to prevent GitHub Pages from ignoring _static and other files that begin with an underscore).
+
+## 7. Ensure All Special Files Are Set Up in the `docs` Branch
 
 Ensure that all these files have been correctly prepared:
 - **`docs`** folder: Where documentation content and builds are hosted. This should include **index.html.** (to redirect to the `docs/latest` folder) and **.nojekyll** (to prevent GitHub Pages from ignoring _static and other files that begin with an underscore).
@@ -200,7 +206,7 @@ Ensure that all these files have been correctly prepared:
 - **`_static/switcher.json`**: Used for version switching within the docs (managed by the workflow).
 - **`README.md`**: Copy this readme file as well into the `docs`branch.
 
-## 7. Add Worflow for Automated Documentation on Release
+## 8. Add Worflow for Automated Documentation on Release
 
 Add the `docs.yml` to the `.github/workflows/docs.yml` folder of the branch of your project from which the release will be made.
 
@@ -314,7 +320,7 @@ In the code below, ensure that PYTHON_PACKAGE, ORGANIZATON and REPO are the corr
 >           git push
 > ```
 
-## 8. Enable Write Permissions for GitHub Actions
+## 9. Enable Write Permissions for GitHub Actions
 
 Ensure that GitHub Actions have write permissions to the repository following these steps:
 - Go to your repository on GitHub.
