@@ -77,6 +77,8 @@ Here you find a series of notebooks that give you an overview of the core featur
 
   Styles.
 
+## Examples
+
 ## Advanced Topics
 
 - AT201 **[Using Mappings as Inputs](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/advanced-topics/AT201_mappings.ipynb)** <a href="https://colab.research.google.com/github/DeepTrackAI/deeplay/blob/develop/tutorials/advanced-topics/AT201_mappings.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg"></a>
@@ -102,3 +104,11 @@ Here you find a series of notebooks tailored for Deeplay's developers:
 - DT171 **[Deeplay Blocks](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT171_vlocks.ipynb)** <a href="https://colab.research.google.com/github/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT171_vlocks.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg"></a>
 
 - DT181 **[Overview of Deeplay Internal Structure](https://github.com/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT181_internals.ipynb)** <a href="https://colab.research.google.com/github/DeepTrackAI/deeplay/blob/develop/tutorials/developers/DT181_internals.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg"></a>
+
+## Documentation
+
+The detailed documentation of Deeplay is available at the following link: [https://deeptrackai.github.io/deeplay](https://deeptrackai.github.io/deeplay)
+
+## Funding
+
+This work was supported by the ERC Starting Grant ComplexSwimmers (Grant No. 677511), the ERC Starting Grant MAPEI (101001267), and the Knut and Alice Wallenberg Foundation.
