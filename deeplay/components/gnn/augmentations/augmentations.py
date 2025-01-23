@@ -83,7 +83,7 @@ class RandomRotation:
 
         graph = graph.clone()
         node_feats = graph.x[:, :2] - 0.5  # Centered positons.
-        angle = np.random.rand() * 2 * pi
+        angle = np.random.rand() * 2 * np.pi
         rotation_matrix = torch.tensor(
             [[cos(angle), -sin(angle)], [sin(angle), cos(angle)]]
         ).float()
