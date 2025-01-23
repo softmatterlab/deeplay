@@ -23,21 +23,27 @@ from math import sin, cos
 
 import numpy as np
 import torch
+from torch_geometric.data import Data
 
 class NoisyNode:
     """Class to add noise to node attributes.
 
     """
 
-    def __call__(self, graph):
+    def __call__(
+        self,
+        graph: Data,
+    ) -> Data :
         
+        # Ensure original graph is unchanged.
         graph = graph.clone()
+        
+        # Center positions.
+        node_feats = graph.x[:, :2] - 0.5
+        node_feats += np.random.randn(*node_feats.shape) * np.random.rand()*0.1
 
-        node_feats = graph.x[:, :2] - 0.5 # Centered positions.
-        node_feats += np.random.randn(*node_feats.shape) * np.random.rand()* 0.1
-
-        graph.x[:, :2] = node_feats + 0.5 # Restored positions.
-
+        # Restore positions.
+        graph.x[:, :2] = node_feats + 0.5
         return graph
 
 
@@ -46,7 +52,10 @@ class NodeDropout:
 
     """
 
-    def __call__(self, graph):
+    def __call__(
+        self,
+        graph: Data
+    ) -> Data:
 
         # Ensure original graph is unchanged.
         graph = graph.clone()
@@ -79,16 +88,25 @@ class RandomRotation:
     
     """
     
-    def __call__(self, graph):
-
+    def __call__(
+        self,
+        graph: Data
+    ) -> Data:
+        # Ensure original graph is unchanged.
         graph = graph.clone()
-        node_feats = graph.x[:, :2] - 0.5  # Centered positons.
+
+        # Center positons.
+        node_feats = graph.x[:, :2] - 0.5  
         angle = np.random.rand() * 2 * np.pi
+
         rotation_matrix = torch.tensor(
             [[cos(angle), -sin(angle)], [sin(angle), cos(angle)]]
         ).float()
         rotated_node_attr = torch.matmul(node_feats, rotation_matrix)
-        graph.x[:, :2] = rotated_node_attr + 0.5  # Restored positons.
+
+        # Restore positons.
+        graph.x[:, :2] = rotated_node_attr + 0.5  
+        
         return graph
 
  
@@ -96,14 +114,23 @@ class RandomFlip:
     """Random flip to diversify training data.
     
     """
-    
-    def __call__(self, graph):
 
+    def __call__(
+        self,
+        graph: Data
+    ) -> Data:
+
+        # Ensure original graph is unchanged.
         graph = graph.clone()
-        node_feats = graph.x[:, :2] - 0.5  # Centered positons.
+
+        # Center positons.
+        node_feats = graph.x[:, :2] - 0.5  
+
         if np.random.randint(2): node_feats[:, 0] *= -1
         if np.random.randint(2): node_feats[:, 1] *= -1
-        graph.x[:, :2] = node_feats + 0.5  # Restored positons.
+
+        # Restore positons.
+        graph.x[:, :2] = node_feats + 0.5  
         return graph
 
 
@@ -112,11 +139,14 @@ class AugmentCentroids:
     
     """
 
-    def __call__(self, graph):
+    def __call__(
+        self,
+        graph: Data
+    ) -> Data:
 
         graph = graph.clone()
 
-        # Centered positions.
+        # Center positions.
         centroids = graph.x[:, :2] - 0.5 
 
         angle = np.random.rand() * 2 * np.pi
