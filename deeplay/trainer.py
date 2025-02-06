@@ -9,10 +9,17 @@ from lightning.pytorch.trainer.connectors.callback_connector import _CallbackCon
 from lightning.pytorch.utilities.types import EVAL_DATALOADERS, TRAIN_DATALOADERS
 
 from deeplay.callbacks import LogHistory, RichProgressBar, TQDMProgressBar
+import os
 
 
 class _DeeplayCallbackConnector(_CallbackConnector):
     def _configure_progress_bar(self, enable_progress_bar: bool = True) -> None:
+
+        progress_bars = [
+            c for c in self.trainer.callbacks if isinstance(c, ProgressBar)
+        ]
+        if enable_progress_bar and not progress_bars:
+            self.trainer.callbacks.append(TQDMProgressBar())
 
         # Not great. Should be in a separate configure method. However, this
         # is arguably more stable to api changes in lightning.
