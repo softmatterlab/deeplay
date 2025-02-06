@@ -1,2 +1,2 @@
-from .progress import RichProgressBar
+from .progress import RichProgressBar, TQDMProgressBar
 from .history import LogHistory
