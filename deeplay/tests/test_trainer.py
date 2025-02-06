@@ -1,15 +1,31 @@
-from deeplay.trainer import Trainer
+from deeplay import DataLoader, Regressor
 from deeplay.callbacks import LogHistory, RichProgressBar
+
 from deeplay import Regressor, DataLoader
 from lightning.pytorch.callbacks.progress.tqdm_progress import TQDMProgressBar
 from lightning.pytorch.callbacks.progress.progress_bar import ProgressBar
 import unittest
 import torch.nn as nn
+
+from deeplay.trainer import Trainer
+
 import lightning as L
+from lightning.pytorch.callbacks.progress.tqdm_progress import TQDMProgressBar
 import torch
+import torch.nn as nn
+import unittest
+from unittest.mock import patch
 
 
 class TestTrainer(unittest.TestCase):
+
+    def setUp(self):
+        self._patcher = patch("torch.backends.mps.is_available", return_value=False)
+        self._mock = self._patcher.start()
+
+    def tearDown(self):
+        self._patcher.stop()
+
     def test_trainer(self):
         trainer = Trainer(callbacks=[LogHistory()])
         self.assertIsInstance(trainer, Trainer)
