@@ -13,11 +13,6 @@ from deeplay.callbacks import LogHistory, RichProgressBar, TQDMProgressBar
 
 class _DeeplayCallbackConnector(_CallbackConnector):
     def _configure_progress_bar(self, enable_progress_bar: bool = True) -> None:
-        progress_bars = [
-            c for c in self.trainer.callbacks if isinstance(c, ProgressBar)
-        ]
-        if enable_progress_bar and not progress_bars:
-            self.trainer.callbacks.append(TQDMProgressBar())
 
         # Not great. Should be in a separate configure method. However, this
         # is arguably more stable to api changes in lightning.
