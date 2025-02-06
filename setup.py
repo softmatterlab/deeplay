@@ -8,7 +8,7 @@ with open("requirements.txt", "r") as file:
 
 setup(
     name="deeplay",
-    version="0.1.0",
+    version="0.1.2",
     license="MIT",
     packages=find_packages(),
     author=(
@@ -31,6 +31,6 @@ setup(
         "Artificial Intelligence",
         "Technology",
     ],
-    python_requires=">=3.8",
+    python_requires=">=3.9",
     install_requires=required,
 )

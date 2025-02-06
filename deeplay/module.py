@@ -1,8 +1,7 @@
 import inspect
-from logging import config
-from pickle import PickleError, PicklingError
 from typing import Any, Dict, Tuple, List, Set, Literal, Optional, Callable, Union
 from warnings import warn
+import dill
 from typing_extensions import Self
 
 import torch
@@ -221,6 +220,7 @@ class Config(Dict[Tuple[str, ...], ConfigItemList]):
                 f"Tags must be a list of tuples, but found {tags}. "
                 "Please check the tags being used."
             )
+
         for k, itemlist in self.items():
             for item in itemlist:
                 if (
@@ -858,6 +858,7 @@ class DeeplayModule(nn.Module, metaclass=ExtendedConstructorMeta):
         # Now, `built_layer` is an instance of nn.Linear(in_features=20, out_features=40)
         ```
         """
+
         if self._has_built:
             warn(
                 "Module has already been built. "
@@ -865,12 +866,12 @@ class DeeplayModule(nn.Module, metaclass=ExtendedConstructorMeta):
                 RuntimeWarning,
             )
             return self
-        self._cleanup_and_construct()
+
         obj = self.new()
-        # obj.set_root_module(obj.root_module)
-        obj = obj.build()
+        obj.build()
         return obj
 
+    @stateful
     def build(self, *args, **kwargs) -> "DeeplayModule":
         """
         Modifies the current instance of the module in place, finalizing its setup.
@@ -922,6 +923,10 @@ class DeeplayModule(nn.Module, metaclass=ExtendedConstructorMeta):
             elif isinstance(value, DeeplayModule):
                 if value._has_built:
                     continue
+                if value is self:
+                    # this is a recursive call to build
+                    # should not happend
+                    continue
                 value = value.build()
 
                 if value is not None:
@@ -949,20 +954,12 @@ class DeeplayModule(nn.Module, metaclass=ExtendedConstructorMeta):
     #     else:
     #         return None
 
-    def new(self, detach: bool = True, memo=None) -> "DeeplayModule":
+    def new(self, detach: bool = True, memo=None) -> Self:
 
-        memo = {}
-        args, kwargs = (
-            self._actual_init_args["args"],
-            self._actual_init_args["kwargs"],
-        )
-        args, kwargs = self._copy_args_and_kwargs(args, kwargs, memo)
+        s = dill.dumps(self)
+        obj = dill.loads(s)
 
-        new = type(self)(*args, **kwargs)
-        new._config_tape = self._config_tape.copy()
-        new._replay_tape()
-
-        return new
+        return obj
 
     def predict(
         self, x, *args, batch_size=32, device=None, output_device=None
@@ -1336,6 +1333,30 @@ class DeeplayModule(nn.Module, metaclass=ExtendedConstructorMeta):
 
         super().__setattr__(name, value)
 
+        if (
+            hasattr(self, "is_constructing")
+            and hasattr(self, "_root_module")
+            and hasattr(self, "_has_built")
+            and hasattr(self, "_is_calling_stateful_method")
+            and hasattr(self, "_default_attribute_keys")
+            and not self.is_constructing
+            and not self._is_calling_stateful_method
+            and name not in ("is_constructing",)
+            and name not in self._default_attribute_keys
+        ):
+            if (
+                isinstance(value, DeeplayModule)
+                and value.root_module is not self.root_module
+                and value.root_module is not value
+            ):
+                # This means that we are setting a submodule of another module
+                # to this module.
+                self._append_to_tape(
+                    self, "_set_submodule", (name, value.root_module, value.tags), {}
+                )
+            else:
+                self._append_to_tape(self, "__setattr__", (name, value), {})
+
         if self.is_constructing:
             if isinstance(value, DeeplayModule):
                 # if not value._has_built:
@@ -1354,6 +1375,44 @@ class DeeplayModule(nn.Module, metaclass=ExtendedConstructorMeta):
         if self._has_built and isinstance(x, BaseScheduler):
             return x.__get__(self, type(self))
         return x
+
+    @stateful
+    def _set_submodule(self, name, module, tags):
+
+        for _, submodule in module.named_modules():
+            if hasattr(submodule, "tags") and submodule.tags == tags:
+                m = submodule
+                break
+
+        if m is None:
+            raise ValueError(f"Submodule with tags {tags} not found.")
+
+        setattr(self, name, m)
+
+    @stateful
+    def set(self, name, value):
+        """Sets an attribute for the module, allowing for persistent configuration
+        across checkpoints.
+
+        This method is intended for setting module parameters or configurations
+        that should be restored when loading a module from a saved checkpoint.
+
+        Parameters
+        ----------
+           name: str
+               The name of the attribute to set.
+           value: any
+               The value to assign to the attribute.
+
+        Example
+        -------
+        >>> module.set("attribute", 42)
+        >>> module.attribute
+        42
+
+        """
+        setattr(self, name, value)
+        return self
 
     def _select_string(self, structure, selections, select, ellipsis=False):
         selects = select.split(",")
@@ -1577,15 +1636,75 @@ class DeeplayModule(nn.Module, metaclass=ExtendedConstructorMeta):
 
     def calling_stateful(self):
         class Stateful:
-            def __enter__(_):
+
+            def __init__(st_self):
+                st_self._is_calling_stateful_method_previous_state = (
+                    self._is_calling_stateful_method
+                )
+                st_self._root_is_calling_stateful_method_previous_state = (
+                    self.root_module._is_calling_stateful_method
+                )
+
+            def __enter__(st_self):
                 self._is_calling_stateful_method = True
                 self.root_module._is_calling_stateful_method = True
 
-            def __exit__(_, *args):
-                self._is_calling_stateful_method = False
-                self.root_module._is_calling_stateful_method = False
+            def __exit__(st_self, *args):
+                self._is_calling_stateful_method = (
+                    st_self._is_calling_stateful_method_previous_state
+                )
+                self.root_module._is_calling_stateful_method = (
+                    st_self._root_is_calling_stateful_method_previous_state
+                )
 
         return Stateful()
+
+    def __getstate__(self):
+        args, kwargs = self._actual_init_args["args"], self._actual_init_args["kwargs"]
+        _config_tape = self._config_tape
+
+        # Ensure state dict is only saved for the root module
+        # to avoid saving the same state dict multiple times
+        if self.root_module is self:
+            state_dict = self.state_dict()
+        else:
+            state_dict = None
+
+        return {
+            "args": args,
+            "kwargs": kwargs,
+            "_config_tape": _config_tape,
+            "state_dict": state_dict,
+        }
+
+    def __setstate__(self, state):
+
+        object.__setattr__(
+            self,
+            "_actual_init_args",
+            {"args": state["args"], "kwargs": state["kwargs"]},
+        )
+        object.__setattr__(self, "_config_tape", [])
+        object.__setattr__(self, "_is_calling_stateful_method", False)
+
+        self.__pre_init__(*state["args"], **state["kwargs"])
+
+        object.__setattr__(self, "_default_attribute_keys", set(self.__dict__.keys()))
+
+        with not_top_level(ExtendedConstructorMeta, self):
+            self.__construct__()
+            self.__post_init__()
+
+        object.__setattr__(
+            self,
+            "_user_attribute_keys",
+            set(self.__dict__.keys()) - self._default_attribute_keys,
+        )
+
+        self._config_tape = state["_config_tape"]
+        self._replay_tape()
+        if state["state_dict"] is not None:
+            self.load_state_dict(state["state_dict"])
 
     def _copy_args_and_kwargs(self, args, kwargs, memo=None):
         memo = {} if memo is None else memo

@@ -26,21 +26,6 @@ class ConvolutionalNeuralNetwork(DeeplayModule):
     pool: template-like
         Specification for the pooling of the block. Is not applied to the first block. (Default: nn.Identity)
 
-
-    Parameters
-    ----------
-    in_channels: int or None
-        Number of input features. If None, the input shape is inferred from the first forward pass
-    hidden_channels: list[int]
-        Number of hidden units in each layer
-    out_channels: int
-        Number of output features
-    out_activation: template-like
-        Specification for the output activation of the MLP. (Default: nn.Identity)
-    pool: template-like
-        Specification for the pooling of the block. Is not applied to the first block. (Default: nn.Identity)
-
-
     Configurables
     -------------
     - in_channels (int): Number of input features. If None, the input shape is inferred from the first forward pass.

@@ -8,6 +8,12 @@ import torch.nn as nn
 
 
 class DecoratedModule(DeeplayModule):
+
+    def __init__(self):
+        self.before_build_counter = 0
+        self.after_build_counter = 0
+        super().__init__()
+
     @before_build
     def run_function_before_build(self, func):
         func(self)
@@ -18,6 +24,12 @@ class DecoratedModule(DeeplayModule):
 
 
 class DecoratedExternal(External):
+
+    def __pre_init__(self, classtype: type, *args, **kwargs):
+
+        self.before_build_counter = 0
+        return super().__pre_init__(classtype, *args, **kwargs)
+
     @before_build
     def run_function_before_build(self, func):
         func(self)
@@ -52,7 +64,9 @@ class TestModule(DeeplayModule):
 # module["encoder"]
 
 
-class DummyClass: ...
+class DummyClass:
+    def __init__(self):
+        self.after_build_counter = 0
 
 
 class TestDecorators(unittest.TestCase):
@@ -76,29 +90,26 @@ class TestDecorators(unittest.TestCase):
             mock.assert_called_once_with(module)
 
     def test_hooks_survive_new(self):
-        before_build_mocks = [Mock() for _ in range(3)]
-        after_build_mocks = [Mock() for _ in range(3)]
 
         module = DecoratedModule()
 
-        def wrapped(mock):
-            return lambda x: mock(x)
+        def f_before(obj):
+            obj.before_build_counter += 1
 
-        for mock in before_build_mocks:
-            module.run_function_before_build(wrapped(mock))
+        def f_after(obj):
+            obj.after_build_counter += 1
 
-        for mock in after_build_mocks:
-            module.run_function_after_build(wrapped(mock))
+        for _ in range(3):
+            module.run_function_before_build(f_before)
+
+        for _ in range(3):
+            module.run_function_after_build(f_after)
 
         new_module = module.new()
-
         new_module.build()
 
-        for mock in before_build_mocks:
-            mock.assert_called_with(new_module)
-
-        for mock in after_build_mocks:
-            mock.assert_called_with(new_module)
+        self.assertEqual(new_module.before_build_counter, 3)
+        self.assertEqual(new_module.after_build_counter, 3)
 
     def test_hooks_module(self):
         module = DecoratedModule()
@@ -134,29 +145,26 @@ class TestDecorators(unittest.TestCase):
             mock.assert_called_once_with(built)
 
     def test_hooks_external_survive_new(self):
-        before_build_mocks = [Mock() for _ in range(3)]
-        after_build_mocks = [Mock() for _ in range(3)]
 
         external = DecoratedExternal(DummyClass)
 
-        def wrapped(mock):
-            return lambda x: mock(x)
+        def f_before(obj):
+            obj.before_build_counter += 1
 
-        for mock in before_build_mocks:
-            external.run_function_before_build(wrapped(mock))
+        def f_after(obj):
+            obj.after_build_counter += 1
 
-        for mock in after_build_mocks:
-            external.run_function_after_build(wrapped(mock))
+        for _ in range(3):
+            external.run_function_before_build(f_before)
+
+        for _ in range(3):
+            external.run_function_after_build(f_after)
 
         new_external = external.new()
-
         built = new_external.build()
 
-        for mock in before_build_mocks:
-            mock.assert_called_with(new_external)
-
-        for mock in after_build_mocks:
-            mock.assert_called_with(built)
+        self.assertEqual(new_external.before_build_counter, 3)
+        self.assertEqual(built.after_build_counter, 3)
 
     def test_hooks_survive_select(self):
         module = TestModule()
