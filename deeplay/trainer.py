@@ -1,15 +1,12 @@
-from datetime import timedelta
-from typing import Dict, List, Optional, Union
+from __future__ import annotations
 
-from lightning import Callback, LightningDataModule
 from lightning import Trainer as pl_Trainer
-from lightning.fabric.utilities.types import _PATH
 from lightning.pytorch.callbacks.progress.progress_bar import ProgressBar
-from lightning.pytorch.trainer.connectors.callback_connector import _CallbackConnector
-from lightning.pytorch.utilities.types import EVAL_DATALOADERS, TRAIN_DATALOADERS
+from lightning.pytorch.trainer.connectors.callback_connector import (
+    _CallbackConnector,
+)
 
 from deeplay.callbacks import LogHistory, RichProgressBar, TQDMProgressBar
-import os
 
 
 class _DeeplayCallbackConnector(_CallbackConnector):
@@ -56,23 +53,35 @@ class Trainer(pl_Trainer):
                 return
         raise ValueError("History object not found in callbacks")
 
-    def disable_progress_bar(self) -> None:
-        """Disables the progress bar."""
+    def disable_progress_bar(self: Trainer) -> None:
+        """Disables the progress bar.
+
+        Raises
+        ------
+        ValueError
+            If no progress bar callback is found.
+
+        """
+
         for callback in self.callbacks:
             if isinstance(callback, ProgressBar):
                 self.callbacks.remove(callback)
                 return
+
         raise ValueError("Progress bar object not found in callbacks")
 
-    def tqdm_progress_bar(self, refresh_rate: int = 1) -> None:
-        """Enables the tqdm progress bar.
+    def tqdm_progress_bar(self: Trainer, refresh_rate: int = 1) -> None:
+        """Enables the TQDM progress bar.
 
         Parameters
         ----------
-        refresh_rate : int
-            The refresh rate of the progress bar.
+        refresh_rate : int, optional
+            The refresh rate of the progress bar, by detault 1. 
+
         """
+
         self.disable_progress_bar()
+
         self.callbacks.append(TQDMProgressBar(refresh_rate=refresh_rate))
 
     def rich_progress_bar(self, refresh_rate: int = 1, leave: bool = False) -> None:
@@ -80,10 +89,16 @@ class Trainer(pl_Trainer):
 
         Parameters
         ----------
-        refresh_rate : int
-            The refresh rate of the progress bar.
-        leave : bool
-            Whether to leave the progress bar after completion.
+        refresh_rate : int, optional
+            The refresh rate of the progress bar, by default 1.
+        leave : bool, optional
+            Whether to leave the progress bar after completion,
+            by default False.
+
         """
+
         self.disable_progress_bar()
-        self.callbacks.append(RichProgressBar(refresh_rate=refresh_rate, leave=leave))
+
+        self.callbacks.append(
+            RichProgressBar(refresh_rate=refresh_rate, leave=leave),
+        )
