@@ -36,6 +36,40 @@ Classes:
     Supports configurable themes and console settings, and adjusts refresh
     rates when needed.
 
+Examples
+--------
+This example demosntrate the use of the standard TQDM progress bar:
+
+```python
+import deeplay as dl
+import torch
+
+# Create training dataset.
+num_samples = 10 ** 4
+data = torch.randn(num_samples, 2)
+labels = (data.sum(dim=1) > 0).long()
+
+dataset = torch.utils.data.TensorDataset(data, labels)
+dataloader = dl.DataLoader(dataset, batch_size=16, shuffle=True)
+
+# Create neural network and classifier application.
+mlp = dl.MediumMLP(in_features=2, out_features=2)
+classifier = dl.Classifier(mlp, optimizer=dl.Adam(), num_classes=2).build()
+
+# Train neural network with progress bar.
+tqdm_bar = dl.callbacks.TQDMProgressBar(refresh_rate=100)
+trainer = dl.Trainer(max_epochs=100, callbacks=[tqdm_bar])
+trainer.fit(classifier, dataloader)
+```
+
+Alternatively, you can use the rich progress bar with:
+
+```python
+rich_bar = dl.callbacks.RichProgressBar(refresh_rate=100)
+trainer = dl.Trainer(max_epochs=100, callbacks=[rich_bar])
+trainer.fit(classifier, dataloader)
+```
+
 """
 
 from __future__ import annotations
@@ -63,6 +97,32 @@ class TQDMProgressBar(LightningTQDMProgressBar):
     ----------
     refresh_rate : int, optional
         The refresh rate of the progress bar, by default 1.
+
+    Example
+    -------
+    This example demosntrate the use of the standard TQDM progress bar:
+
+    ```python
+    import deeplay as dl
+    import torch
+
+    # Create training dataset.
+    num_samples = 10 ** 4
+    data = torch.randn(num_samples, 2)
+    labels = (data.sum(dim=1) > 0).long()
+
+    dataset = torch.utils.data.TensorDataset(data, labels)
+    dataloader = dl.DataLoader(dataset, batch_size=16, shuffle=True)
+
+    # Create neural network and classifier application.
+    mlp = dl.MediumMLP(in_features=2, out_features=2)
+    classifier = dl.Classifier(mlp, optimizer=dl.Adam(), num_classes=2).build()
+
+    # Train neural network with progress bar.
+    tqdm_bar = dl.callbacks.TQDMProgressBar(refresh_rate=100)
+    trainer = dl.Trainer(max_epochs=100, callbacks=[tqdm_bar])
+    trainer.fit(classifier, dataloader)
+    ```
 
     """
 
@@ -135,6 +195,32 @@ class RichProgressBar(LightningRichProgressBar):
     console_kwargs : dict, optional
         Additional keyword arguments for configuring the Rich console,
         by default None.
+
+    Example
+    -------
+    This example demosntrate the use of the standard TQDM progress bar:
+
+    ```python
+    import deeplay as dl
+    import torch
+
+    # Create training dataset.
+    num_samples = 10 ** 4
+    data = torch.randn(num_samples, 2)
+    labels = (data.sum(dim=1) > 0).long()
+
+    dataset = torch.utils.data.TensorDataset(data, labels)
+    dataloader = dl.DataLoader(dataset, batch_size=16, shuffle=True)
+
+    # Create neural network and classifier application.
+    mlp = dl.MediumMLP(in_features=2, out_features=2)
+    classifier = dl.Classifier(mlp, optimizer=dl.Adam(), num_classes=2).build()
+
+    # Train neural network with progress bar.
+    rich_bar = dl.callbacks.RichProgressBar(refresh_rate=100)
+    trainer = dl.Trainer(max_epochs=100, callbacks=[rich_bar])
+    trainer.fit(classifier, dataloader)
+    ```
 
     """
 
